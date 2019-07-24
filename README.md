@@ -40,3 +40,8 @@ Visual Studio Windows Form(C#) utils or image assets
 <a href="https://play.google.com/store/apps/details?id=org.mjstudio.ggonggang"><img alt="Get it on Google Play" src="https://play.google.com/intl/en_us/badges/images/generic/en-play-badge.png" height=72px /></a>
 
 App Store(iOS) pending...
+
+----
+## Android
+
+![Android](https://github.com/mym0404/GFree-Assets/blob/master/Sample_Images/gif.gif "Android")
