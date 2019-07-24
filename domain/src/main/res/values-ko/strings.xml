@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">G금공강</string>
+    <string name="filter_major">전공으로 검색</string>
+    <string name="filter_possible">담을 수 있는 과목만 보기</string>
+    <string name="filter_grade_point">학점으로 검색</string>
+    <string name="sex_female">여자</string>
+    <string name="sex_male">남자</string>
+    <string name="sex_unknown">비공개</string>
+    <string name="major_unknown">None</string>
+    <string name="major_bs">생명과학전공</string>
+    <string name="major_cc">대학원공통</string>
+    <string name="major_ch">화학전공</string>
+    <string name="major_ct">문화기술부전공</string>
+    <string name="major_ec">전기전자컴퓨터전공</string>
+    <string name="major_et">에너지부전공</string>
+    <string name="major_ev">지구환경공학전공</string>
+    <string name="major_gs">기초교육학부</string>
+    <string name="major_ir">지능로봇부전공</string>
+    <string name="major_ma">신소재공학전공</string>
+    <string name="major_mc">기계공학전공</string>
+    <string name="major_mm">수학부전공</string>
+    <string name="major_md">의생명공학부전공</string>
+    <string name="major_ps">물리전공</string>
+    <string name="major_uc">대학공통</string>
+    <string name="type_add">새 과목 추가</string>
+    <string name="type_code">과목코드 변경</string>
+    <string name="type_grade">학점 변경</string>
+    <string name="type_name">과목명 변경</string>
+    <string name="type_place">장소 변경</string>
+    <string name="type_professor">교수 변경</string>
+    <string name="type_remove">기존 과목 삭제</string>
+    <string name="type_size">수강인원 변경</string>
+    <string name="type_timeadd">시간 추가</string>
+    <string name="type_timeremove">시간 삭제</string>
+</resources>

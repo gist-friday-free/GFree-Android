@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:gfree="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/menu_search_action"
+        gfree:showAsAction="always"
+        android:title=""
+        android:orderInCategory="3"
+        android:iconTint="@color/colorBlack"
+        android:icon="@drawable/ic_search"/>
+    <item
+        android:id="@+id/menu_search_filter"
+        gfree:showAsAction="always"
+        android:title=""
+        android:orderInCategory="2"
+        android:iconTint="@color/colorBlack"
+        android:icon="@drawable/ic_filter"/>
+    <item
+        android:id="@+id/menu_search_refresh"
+        gfree:showAsAction="always"
+        android:title=""
+        android:orderInCategory="1"
+        android:iconTint="@color/colorBlack"
+        android:icon="@drawable/ic_refresh"/>
+</menu>

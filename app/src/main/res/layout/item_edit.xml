@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="vm"
+            type="org.mjstudio.ggonggang.ui.edit.EditViewModel" />
+        <variable
+            name="item"
+            type="org.mjstudio.gfree.domain.entity.Edit"/>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="120dp">
+
+
+
+        <me.grantland.widget.AutofitTextView
+            android:id="@+id/autofitTextView3"
+            style="@style/BaseTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:lines="1"
+            android:text='@{item.editClass.name + " ("+ item.editClass.code + ")"}'
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textView48"
+            app:minTextSize="10sp"
+            tools:text="미적분" />
+
+        <me.grantland.widget.AutofitTextView
+            android:id="@+id/autofitTextView4"
+            style="@style/BaseTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:gravity="start"
+            android:lines="1"
+            android:text="@{item.type.strResId}"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/autofitTextView3"
+            app:minTextSize="10sp"
+            tools:text="미적분 과목 추가요청" />
+
+        <TextView
+            android:id="@+id/textView49"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            app:requested_text='@{"Requested by 『" + item.writer + "』"}'
+            tools:text="mjstudio@happy.com"
+            android:textSize="8sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+        <TextView
+            android:id="@+id/textView48"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:text="@{item.getDateTimeString()}"
+            android:textSize="8sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="2019. 6. 11." />
+
+        <ImageView
+            tools:src="@drawable/ic_star_filled"
+            android:onClick="@{(v) -> vm.onClickHeartButton(v,item)}"
+            android:id="@+id/imageView_star"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/autofitTextView4"
+             />
+
+        <TextView
+            android:textSize="8sp"
+            android:text="@{String.valueOf(item.star.size)}"
+            android:id="@+id/textView_star_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            tools:text="12"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/imageView_star"
+            app:layout_constraintTop_toBottomOf="@+id/autofitTextView4" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

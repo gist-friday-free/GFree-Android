@@ -1,0 +1,351 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout>
+    <data>
+        <variable
+            name="userRepository"
+            type="org.mjstudio.gfree.domain.repository.UserRepository" />
+        <variable
+            name="vm"
+            type="org.mjstudio.ggonggang.ui.timetable.TimeTableViewModel"/>
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/container_timetable_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <ProgressBar
+            android:visibility="@{vm.isLoading}"
+            android:id="@+id/progressBar_timetable"
+            style="@style/Widget.AppCompat.ProgressBar"
+            android:layout_width="148dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:indeterminate="true" />
+
+        <ScrollView
+            android:id="@+id/container_timetable_scrollView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:overScrollMode="never"
+            android:scrollbars="none">
+
+            <LinearLayout
+                android:background="@color/colorBackground"
+                android:orientation="vertical"
+                android:id="@+id/container_timetable_capture"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+
+                    <org.mjstudio.ggonggang.view.timetable.TimeTableCoordinatorLayout
+                        app:timeTableItems="@{userRepository.getRegisteredClassDataLiveData()}"
+                        android:id="@+id/timeTableLayout"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginBottom="8dp"
+                        android:animateLayoutChanges="true"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/container_time"
+                        app:layout_constraintTop_toBottomOf="@id/container_week"/>
+
+
+
+                    <LinearLayout
+                        android:id="@+id/container_week"
+                        android:layout_width="0dp"
+                        android:layout_height="32dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+
+                        android:orientation="horizontal"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <TextView
+                            android:id="@+id/textView4"
+                            android:layout_width="48dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_weight="0"
+                            android:textAlignment="center" />
+
+                        <TextView
+                            android:id="@+id/textView5"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:text="월"
+                            android:textAlignment="center"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/textView6"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:text="화"
+                            android:textAlignment="center"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/textView7"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:text="수"
+                            android:textAlignment="center"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/textView8"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:text="목"
+                            android:textAlignment="center"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/textView9"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:text="금"
+                            android:textAlignment="center"
+                            android:textColor="#f55"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/container_time"
+                        android:layout_width="48dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/container_week">
+
+                        <TextView
+                            android:id="@+id/textView10"
+                            android:layout_width="match_parent"
+                            android:layout_height="60dp"
+                            android:ems="10"
+                            android:gravity="center_horizontal"
+                            android:text="9:00"
+                            android:textAlignment="center"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/textView11"
+                            android:layout_width="match_parent"
+                            android:layout_height="60dp"
+                            android:ems="10"
+                            android:gravity="center_horizontal"
+                            android:text="10:00"
+                            android:textAlignment="center"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/textView12"
+                            android:layout_width="match_parent"
+                            android:layout_height="60dp"
+                            android:ems="10"
+                            android:gravity="center_horizontal"
+                            android:text="11:00"
+                            android:textAlignment="center"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/textView13"
+                            android:layout_width="match_parent"
+                            android:layout_height="60dp"
+                            android:ems="10"
+                            android:gravity="center_horizontal"
+                            android:text="12:00"
+                            android:textAlignment="center"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/textView14"
+                            android:layout_width="match_parent"
+                            android:layout_height="60dp"
+                            android:ems="10"
+                            android:gravity="center_horizontal"
+                            android:text="13:00"
+                            android:textAlignment="center"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/textView15"
+                            android:layout_width="match_parent"
+                            android:layout_height="60dp"
+                            android:ems="10"
+                            android:gravity="center_horizontal"
+                            android:text="14:00"
+                            android:textAlignment="center"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/textView16"
+                            android:layout_width="match_parent"
+                            android:layout_height="60dp"
+                            android:ems="10"
+                            android:gravity="center_horizontal"
+                            android:text="15:00"
+                            android:textAlignment="center"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/textView17"
+                            android:layout_width="match_parent"
+                            android:layout_height="60dp"
+                            android:ems="10"
+                            android:gravity="center_horizontal"
+                            android:text="16:00"
+                            android:textAlignment="center"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/textView18"
+                            android:layout_width="match_parent"
+                            android:layout_height="60dp"
+                            android:ems="10"
+                            android:gravity="center_horizontal"
+                            android:text="17:00"
+                            android:textAlignment="center"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/textView19"
+                            android:layout_width="match_parent"
+                            android:layout_height="60dp"
+                            android:ems="10"
+                            android:gravity="center_horizontal"
+                            android:text="18:00"
+                            android:textAlignment="center"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/textView20"
+                            android:layout_width="match_parent"
+                            android:layout_height="60dp"
+                            android:ems="10"
+                            android:gravity="center_horizontal"
+                            android:text="19:00"
+                            android:textAlignment="center"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/textView21"
+                            android:layout_width="match_parent"
+                            android:layout_height="60dp"
+                            android:ems="10"
+                            android:gravity="center_horizontal"
+                            android:text="20:00"
+                            android:textAlignment="center"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/textView22"
+                            android:layout_width="match_parent"
+                            android:layout_height="60dp"
+                            android:ems="10"
+                            android:gravity="center_horizontal"
+                            android:text="21:00"
+                            android:textAlignment="center"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </LinearLayout>
+
+
+        </ScrollView>
+
+        <com.github.clans.fab.FloatingActionMenu
+            android:id="@+id/floating_menu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_gravity="right|bottom"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:menu_colorNormal="@color/colorBlack"
+            app:menu_colorPressed="@color/colorBlack"
+            app:menu_fab_label="@string/fab_menu_title_hint"
+            app:menu_fab_size="mini"
+            app:menu_icon="@drawable/fab_add"
+            app:menu_labels_colorNormal="@color/colorBlack"
+            app:menu_labels_showShadow="false">
+
+            <com.github.clans.fab.FloatingActionButton
+                android:transitionName="graph3"
+                android:id="@+id/floating_button_revmoe"
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="@{() -> vm.onClickRemoveButton()}"
+                android:src="@drawable/ic_remove"
+                app:fab_colorNormal="@color/colorWhite"
+                app:fab_colorPressed="@color/colorWhite"
+                app:fab_colorRipple="@color/textInActivate"
+                app:fab_label="@string/fab_remove_class"
+                app:fab_size="mini" />
+
+            <com.github.clans.fab.FloatingActionButton
+                android:transitionName="graph4"
+                android:id="@+id/floating_button_information"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="@{() -> vm.onClickInformationButton()}"
+                android:src="@drawable/ic_information"
+                app:fab_colorNormal="@color/colorWhite"
+                app:fab_colorPressed="@color/colorWhite"
+                app:fab_colorRipple="@color/textInActivate"
+                app:fab_label="@string/fab_class_information"
+                app:fab_size="mini" />
+        </com.github.clans.fab.FloatingActionMenu>
+
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>
+
+
+
+
+

@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="org.mjstudio.gfree.domain.dto.EditDTO.Type" />
+        <variable
+            name="vm"
+            type="org.mjstudio.ggonggang.ui.post.PostViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:onClick="@{() -> vm.onClickEditType(Type.ADD)}"
+            android:text="@string/type_add"
+            android:background="@drawable/post_edit_type_item_background"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="0dp"
+
+            style="@style/BaseTextView"
+            android:paddingEnd="24dp"
+            android:gravity="center_vertical|end"
+            android:layout_width="match_parent"
+            android:layout_height="40dp" />
+
+        <TextView
+            android:onClick="@{() -> vm.onClickEditType(Type.REMOVE)}"
+            android:text="@string/type_remove"
+            android:background="@drawable/post_edit_type_item_background"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="0dp"
+
+            style="@style/BaseTextView"
+            android:paddingEnd="24dp"
+            android:gravity="center_vertical|end"
+            android:layout_width="match_parent"
+            android:layout_height="40dp" />
+
+        <TextView
+            android:onClick="@{() -> vm.onClickEditType(Type.CODE)}"
+            android:text="@string/type_code"
+            android:id="@+id/textView40"
+            style="@style/BaseTextView"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="0dp"
+            android:background="@drawable/post_edit_type_item_background"
+            android:gravity="center_vertical|end"
+            android:paddingEnd="24dp"
+             />
+
+        <TextView
+            android:onClick="@{() -> vm.onClickEditType(Type.GRADE)}"
+            android:text="@string/type_grade"
+            android:id="@+id/textView41"
+            style="@style/BaseTextView"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="0dp"
+            android:background="@drawable/post_edit_type_item_background"
+            android:gravity="center_vertical|end"
+            android:paddingEnd="24dp"
+             />
+
+        <TextView
+            android:onClick="@{() -> vm.onClickEditType(Type.PLACE)}"
+            android:text="@string/type_place"
+            android:id="@+id/textView42"
+            style="@style/BaseTextView"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="0dp"
+            android:background="@drawable/post_edit_type_item_background"
+            android:gravity="center_vertical|end"
+            android:paddingEnd="24dp"
+             />
+
+        <TextView
+            android:onClick="@{() -> vm.onClickEditType(Type.SIZE)}"
+            android:text="@string/type_size"
+            android:id="@+id/textView43"
+            style="@style/BaseTextView"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="0dp"
+            android:background="@drawable/post_edit_type_item_background"
+            android:gravity="center_vertical|end"
+            android:paddingEnd="24dp"
+             />
+
+        <TextView
+            android:onClick="@{() -> vm.onClickEditType(Type.PROFESSOR)}"
+            android:text="@string/type_professor"
+            android:id="@+id/textView44"
+            style="@style/BaseTextView"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="0dp"
+            android:background="@drawable/post_edit_type_item_background"
+            android:gravity="center_vertical|end"
+            android:paddingEnd="24dp"
+             />
+
+        <TextView
+            android:onClick="@{() -> vm.onClickEditType(Type.TIMEADD)}"
+            android:text="@string/type_timeadd"
+            android:id="@+id/textView45"
+            style="@style/BaseTextView"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="0dp"
+            android:background="@drawable/post_edit_type_item_background"
+            android:gravity="center_vertical|end"
+            android:paddingEnd="24dp"
+             />
+
+        <TextView
+            android:onClick="@{() -> vm.onClickEditType(Type.TIMEREMOVE)}"
+            android:text="@string/type_timeremove"
+            android:id="@+id/textView46"
+            style="@style/BaseTextView"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="0dp"
+            android:background="@drawable/post_edit_type_item_background"
+            android:gravity="center_vertical|end"
+            android:paddingEnd="24dp"
+             />
+
+    </LinearLayout>
+
+</layout>
+

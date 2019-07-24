@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<resources>
+    <string name="app_name">G Free</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">G.Free</string>
+    <string name="nav_header_subtitle">I want to be a free man!</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+
+    <!--NOTIFICATION-->
+    <string name="noti_general_name">General</string>
+    <string name="title_activity_notice" translatable="false">NoticeActivity</string>
+
+
+    <string name="no_data">No Data</string>
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="add_widget">Add widget</string>
+
+    <string name="update_available">Update available</string>
+    <string name="update_exist">A new version of application exists</string>
+    <string name="update_force_need">You must update applicatio for using</string>
+    <string name="go_store">open play store</string>
+
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="password_check">Password Check</string>
+
+    <string name="search_class_hint">code, name, professor...</string>
+
+    <string name="ok">ok</string>
+    <string name="yes">yes</string>
+    <string name="no">no</string>
+    <string name="cancel">cancel</string>
+    <string name="ignore">ignore</string>
+    <string name="submit">submit</string>
+
+    <string name="email_hint" translatable="false">mjstudio@gist.ac.kr</string>
+    <string name="password_hint">password</string>
+    <string name="signin">Sign In</string>
+    <string name="signout">Sign Out</string>
+    <string name="signup">Sign Up</string>
+
+    <string name="permission_title">Permission issue</string>
+    <string name="permission_deny_message">Some permissions are denied</string>
+    <string name="permission_permanently_deny">Some permissions are permanently denied.\nYou should grant these in [Settings] - [Application].</string>
+
+    <string name="fab_menu_title_hint">choose item first</string>
+
+    <string name="fab_add_class">I GOT YOU!</string>
+    <string name="fab_remove_class">I HATE YOU!</string>
+    <string name="fab_class_information">WHAT IS THIS?</string>
+
+    <string name="menu_name_1">Timetable</string>
+    <string name="menu_name_2">Search</string>
+    <string name="menu_name_3">Request</string>
+    <string name="menu_name_4">Notification</string>
+    <string name="menu_name_5">MY</string>
+
+
+    <string name="post_type">Edit request type(required)</string>
+    <string name="edit">Edit</string>
+
+    <string name="post_remove_title">Remove Class</string>
+    <string name="post_remove_body">Do you want submit remove %s class request?</string>
+    <string name="post_duplicate_warning_title">Duplicated Request</string>
+    <string name="post_duplicate_warning_body">There may be already duplicated request.\n\nCode : %s\nType : %s\nValue : %s\n\nDon\'t make duplicated request.\nInstead, you can like other\'s request.\nThe request that has many like count will be accepted easily.\n\nDo you really want to submit?\n</string>
+
+</resources>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="major_string">
+        <item>@string/major_gs</item>
+        <item>@string/major_uc</item>
+        <item>@string/major_mm</item>
+        <item>@string/major_et</item>
+        <item>@string/major_md</item>
+        <item>@string/major_ct</item>
+        <item>@string/major_ir</item>
+        <item>@string/major_cc</item>
+
+        <item>@string/major_ps</item>
+        <item>@string/major_ch</item>
+        <item>@string/major_bs</item>
+        <item>@string/major_ec</item>
+        <item>@string/major_mc</item>
+        <item>@string/major_ma</item>
+        <item>@string/major_ev</item>
+    </string-array>
+
+    <string name="major_unknown">None</string>
+
+    <string name="major_gs">GS</string>
+    <string name="major_uc">UC</string>
+    <string name="major_mm">MM</string>
+    <string name="major_et">ET</string>
+    <string name="major_md">MD</string>
+    <string name="major_ct">CT</string>
+    <string name="major_ir">IR</string>
+    <string name="major_cc">CC</string>
+
+    <string name="major_ps">PS</string>
+    <string name="major_ch">CH</string>
+    <string name="major_bs">BS</string>
+    <string name="major_ec">EC</string>
+    <string name="major_mc">MC</string>
+    <string name="major_ma">MA</string>
+    <string name="major_ev">EV</string>
+
+
+</resources>

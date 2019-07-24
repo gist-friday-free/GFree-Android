@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_graph"
+    app:startDestination="@+id/splashFragment">
+
+    <fragment
+        android:id="@+id/authFragment"
+        android:name="org.mjstudio.ggonggang.ui.auth.AuthFragment"
+        android:label="AuthFragment"
+        tools:layout="@layout/fragment_auth">
+        <action
+            android:id="@+id/action_authFragment_to_mainFragment"
+            app:destination="@id/mainFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:popUpTo="@+id/authFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_authFragment_to_signUpDialogFragment"
+            app:destination="@id/signUpDialogFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+    </fragment>
+    <fragment
+        android:id="@+id/mainFragment"
+        android:name="org.mjstudio.ggonggang.ui.MainFragment"
+        android:label="MainFragment"
+        tools:layout="@layout/fragment_main">
+        <action
+            android:id="@+id/action_mainFragment_to_noticeContentFragment"
+            app:destination="@id/noticeContentFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        <action
+            android:id="@+id/action_mainFragment_to_informationFragment"
+            app:destination="@id/informationFragment"
+            app:enterAnim="@anim/slide_up"
+            app:popExitAnim="@anim/slide_down" />
+        <action
+            android:id="@+id/action_mainFragment_to_searchFilterBottomSheet"
+            app:destination="@id/searchFilterBottomSheet"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        <action
+            android:id="@+id/action_mainFragment_to_postFragment"
+            app:destination="@id/postFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+    </fragment>
+    <fragment
+        android:id="@+id/informationFragment"
+        android:name="org.mjstudio.ggonggang.ui.information.InformationFragment"
+        android:label="InformationFragment"
+        tools:layout="@layout/fragment_information">
+        <argument
+            android:name="classData"
+            app:argType="org.mjstudio.gfree.domain.entity.ClassData" />
+    </fragment>
+    <activity
+        android:id="@+id/noticeContentFragment"
+        android:name="org.mjstudio.ggonggang.ui.notice.noticecontent.NoticeContentFragment"
+        android:label="NoticeContentFragment"
+        tools:layout="@layout/fragment_notice_content">
+        <argument
+            android:name="notice"
+            app:argType="org.mjstudio.gfree.domain.entity.Notice" />
+    </activity>
+    <dialog
+        android:id="@+id/searchFilterBottomSheet"
+        android:name="org.mjstudio.ggonggang.ui.search.SearchFilterBottomSheet"
+        android:label="SearchFilterBottomSheet"
+        tools:layout="@layout/search_filter">
+        <argument
+            android:name="settings"
+            app:argType="org.mjstudio.ggonggang.ui.search.SearchFilterSettings" />
+    </dialog>
+    <fragment
+        android:id="@+id/splashFragment"
+        android:name="org.mjstudio.ggonggang.ui.splash.SplashFragment"
+        android:label="SplashFragment"
+        tools:layout="@layout/fragment_splash">
+        <action
+            android:id="@+id/action_splashFragment_to_authFragment"
+            app:destination="@id/authFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:popUpTo="@+id/splashFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_splashFragment_to_mainFragment"
+            app:destination="@id/mainFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+    </fragment>
+    <fragment
+        tools:layout="@layout/dialog_signup"
+        android:id="@+id/signUpDialogFragment"
+        android:name="org.mjstudio.ggonggang.ui.auth.SignUpDialogFragment"
+        android:label="SignUpDialogFragment" >
+        <argument
+            android:name="account"
+            app:argType="org.mjstudio.gfree.domain.dto.AccountDTO" />
+    </fragment>
+    <fragment
+        tools:layout="@layout/fragment_post"
+        android:id="@+id/postFragment"
+        android:name="org.mjstudio.ggonggang.ui.post.PostFragment"
+        android:label="PostFragment" />
+    <action
+        android:id="@+id/action_global_informationFragment"
+        app:destination="@id/informationFragment"
+        app:enterAnim="@anim/nav_default_enter_anim"
+        app:exitAnim="@anim/nav_default_exit_anim"
+        app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+        app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+</navigation>

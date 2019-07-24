@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">GFree</string>
+
+    <string name="sex_unknown">private</string>
+    <string name="sex_male">male</string>
+    <string name="sex_female">female</string>
+
+
+    <string name="filter_major">Major</string>
+    <string name="filter_possible">Only registrable</string>
+    <string name="filter_grade_point">Grade</string>
+
+
+    <string name="type_add">Add new class</string>
+    <string name="type_remove">Remove class</string>
+    <string name="type_code">Update class code</string>
+    <string name="type_name">Rename (Korean-Only)</string>
+    <string name="type_grade">Update grade point</string>
+    <string name="type_professor">Update professor</string>
+    <string name="type_place">Update place</string>
+    <string name="type_size">Update class size(limit)</string>
+    <string name="type_timeadd">Add new time slot</string>
+    <string name="type_timeremove">Remove time slot</string>
+
+
+</resources>

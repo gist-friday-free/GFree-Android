@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--NOTIFICATION-->
+    <string name="noti_general_name">General</string>
+    <string name="app_name">G 금공강</string>
+    <string name="nav_header_title">G 금공강</string>
+    <string name="no_data">정보 없음</string>
+
+    <string name="menu_name_1">시간표</string>
+    <string name="menu_name_2">검색</string>
+    <string name="menu_name_3">수정 요청</string>
+    <string name="menu_name_4">알림</string>
+    <string name="menu_name_5">내 정보</string>
+    <string name="post_duplicate_warning_title">중복된 요청</string>
+    <string name="post_duplicate_warning_body">중복된 요청이 존재하는 것으로 보입니다.\n\n과목 코드 : %s\n요청 타입 : %s\n값 : %s\n\n중복된 요청을 만들지 말아주세요.\n대신에, 이미 존재하는 요청에 좋아요를 눌러주세요.\n좋아요가 많은 요청은 수락될 가능성이 높습니다.\n\n그래도 제출하시겠습니까?</string>
+    <string name="post_remove_title">과목 삭제 요청</string>
+    <string name="post_remove_body">정말 %s 과목을 삭제하는 요청을 제출하시겠습니까?</string>
+    <string name="post_type">수정 요청 타입(필수)</string>
+    <string name="search_class_hint">과목 코드, 과목명, 교수..</string>
+    <string name="signin">로그인</string>
+    <string name="signout">로그아웃</string>
+    <string name="signup">회원가입</string>
+    <string name="submit">제출</string>
+    <string name="yes">예</string>
+    <string name="ok">예</string>
+    <string name="no">아니오</string>
+    <string name="password">비밀번호</string>
+    <string name="password_check">비밀번호 확인</string>
+    <string name="password_hint">비밀번호</string>
+    <string name="permission_deny_message">몇 가지 권한이 거부되었습니다.</string>
+    <string name="permission_permanently_deny">몇 가지 권한이 영구적으로 거부되었습니다. [설정] - [어플리케이션] 탭에서 이 권한들을 허용해주세요.</string>
+    <string name="email">이메일</string>
+    <string name="edit">수정</string>
+    <string name="fab_add_class">과목 추가</string>
+    <string name="fab_class_information">과목 정보</string>
+    <string name="fab_menu_title_hint">과목을 먼저 고르세요</string>
+    <string name="fab_remove_class">과목 삭제</string>
+    <string name="go_store">플레이 스토어 가기</string>
+    <string name="ignore">무시</string>
+    <string name="permission_title">권한 이슈</string>
+    <string name="update_exist">새로운 버전의 앱이 존재합니다.</string>
+    <string name="update_force_need">앱 이용을 위해 업데이트가 필요합니다.</string>
+    <string name="update_available">업데이트 가능</string>
+    <string name="cancel">취소</string>
+
+</resources>

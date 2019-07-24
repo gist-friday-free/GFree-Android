@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="vm"
+            type="org.mjstudio.ggonggang.ui.search.SearchViewModel"/>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/container_search"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:focusableInTouchMode="true"
+        android:visibility="visible">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:transitionName="toolbar"
+            android:elevation="@dimen/toolbar_elevation"
+            android:orientation="vertical"
+            android:id="@+id/appbar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/toolbar_height"
+            android:background="@color/colorBlack"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageButton
+                android:id="@+id/button_search"
+                android:onClick="@{() -> vm.onClickSearchButton()}"
+                android:padding="8dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+
+                android:layout_marginBottom="8dp"
+                android:background="@null"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_search" />
+
+            <ImageButton
+                android:onClick="@{() -> vm.onClickFilterButton()}"
+                android:id="@+id/button_filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+
+                android:layout_marginBottom="8dp"
+                android:background="@null"
+                android:padding="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/button_search"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_filter" />
+
+
+            <com.ferfalk.simplesearchview.SimpleSearchView
+                app:searchViewListener="@{vm.searchViewListener}"
+                app:searchViewQueryListene="@{vm.queryTextListener}"
+                android:id="@+id/searchView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="@string/search_class_hint"
+                app:backIconTint="@color/colorBlack"
+                app:hintColor="@color/textInActivate"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+
+                app:type="card" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            app:onRefresh="@{vm.refreshListener}"
+            app:refreshing="@{vm.isLoading}"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/appbar">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:transitionName="recyclerView"
+                android:layout_height="match_parent"
+                android:layout_width="match_parent"
+                android:id="@+id/recyclerView"
+
+                android:layoutAnimation="@anim/layout_animation_fall_down"
+                android:overScrollMode="never"
+                app:classes="@{vm.filteredClassData}" />
+
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+
+        <com.github.clans.fab.FloatingActionMenu
+
+            android:id="@+id/floating_menu"
+            app:menu_fab_size="mini"
+
+            app:menu_colorNormal="@color/colorBlack"
+            app:menu_colorPressed="@color/colorBlack"
+            app:menu_fab_label="@string/fab_menu_title_hint"
+            app:menu_labels_showShadow="false"
+            app:menu_labels_colorNormal="@color/colorBlack"
+            app:menu_icon="@drawable/fab_add"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+            <com.github.clans.fab.FloatingActionButton
+                android:transitionName="graph1"
+                android:onClick="@{() -> vm.onClickAddButton()}"
+
+                android:src="@drawable/ic_add"
+                android:id="@+id/floating_button_add"
+                app:fab_colorPressed="@color/colorWhite"
+                app:fab_colorNormal="@color/colorWhite"
+                app:fab_colorRipple="@color/textInActivate"
+                app:fab_label="@string/fab_add_class"
+                app:fab_size="mini"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <com.github.clans.fab.FloatingActionButton
+                android:transitionName="graph2"
+                android:onClick="@{() -> vm.onClickInformationButton()}"
+                android:id="@+id/floating_button_information"
+                app:fab_colorPressed="@color/colorWhite"
+                app:fab_colorNormal="@color/colorWhite"
+                android:src="@drawable/ic_information"
+                app:fab_label="@string/fab_class_information"
+                app:fab_colorRipple="@color/textInActivate"
+                app:fab_size="mini"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+
+        </com.github.clans.fab.FloatingActionMenu>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

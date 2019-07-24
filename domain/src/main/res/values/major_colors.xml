@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--♕♕♕♕♕♕ MajorHelper Color ♕♕♕♕♕♕-->
+    <!--기초교육학부 GS-->
+    <!--대학 공통 UC-->
+    <!--수학 부전공 MM-->
+    <!--에너지 부전공 ET-->
+    <!--의생명 부전공 MD-->
+    <!--문화기술 부전공 CT-->
+    <!--지능로봇 부전공 IR-->
+    <!--대학원 공통 CC-->
+
+    <array name="COMMONCOLOR">
+        <item>@color/COMMON1</item>
+        <item>@color/COMMON2</item>
+        <item>@color/COMMON3</item>
+        <item>@color/COMMON4</item>
+        <item>@color/COMMON5</item>
+        <item>@color/COMMON6</item>
+        <item>@color/COMMON7</item>
+        <item>@color/COMMON8</item>
+        <item>@color/COMMON9</item>
+    </array>
+    <color name="COMMON1">#ffcee1</color>
+    <color name="COMMON2">#c6a1af</color>
+    <color name="COMMON3">#937681</color>
+    <color name="COMMON4">#755561</color>
+    <color name="COMMON5">#895166</color>
+    <color name="COMMON6">#d17598</color>
+    <color name="COMMON7">#60545b</color>
+    <color name="COMMON8">#ff6d8d</color>
+    <color name="COMMON9">#e2e0e2</color>
+
+
+    <!--물리 PS-->
+    <array name="PSCOLOR">
+        <item>@color/PS1</item>
+        <item>@color/PS2</item>
+        <item>@color/PS3</item>
+        <item>@color/PS4</item>
+        <item>@color/PS5</item>
+        <item>@color/PS6</item>
+    </array>
+
+    <color name="PS1">#ff2020</color>
+    <color name="PS2">#bc1212</color>
+    <color name="PS3">#ef4c4c</color>
+    <color name="PS4">#bf4242</color>
+    <color name="PS5">#8c0000</color>
+    <color name="PS6">#560d0d</color>
+    <!--화학 CH-->
+    <array name="CHCOLOR">
+        <item>@color/CH1</item>
+        <item>@color/CH2</item>
+        <item>@color/CH3</item>
+        <item>@color/CH4</item>
+        <item>@color/CH5</item>
+        <item>@color/CH6</item>
+    </array>
+    <color name="CH1">#4d38d8</color>
+    <color name="CH2">#6553e0</color>
+    <color name="CH3">#8476e2</color>
+    <color name="CH4">#4b418c</color>
+    <color name="CH5">#2f2472</color>
+    <color name="CH6">#1b1351</color>
+    <!--생물 BS-->
+    <array name="BSCOLOR">
+        <item>@color/BS1</item>
+        <item>@color/BS2</item>
+        <item>@color/BS3</item>
+        <item>@color/BS4</item>
+        <item>@color/BS5</item>
+        <item>@color/BS6</item>
+    </array>
+    <color name="BS1">#07c647</color>
+    <color name="BS2">#1dba51</color>
+    <color name="BS3">#45bc6d</color>
+    <color name="BS4">#2e7c48</color>
+    <color name="BS5">#15602e</color>
+    <color name="BS6">#06441b</color>
+    <!--전기전자컴퓨터 EC-->
+    <array name="ECCOLOR">
+        <item>@color/EC1</item>
+        <item>@color/EC2</item>
+        <item>@color/EC3</item>
+        <item>@color/EC4</item>
+        <item>@color/EC5</item>
+        <item>@color/EC6</item>
+    </array>
+    <color name="EC1">#8fdbfc</color>
+    <color name="EC2">#3fc5ff</color>
+    <color name="EC3">#0093d3</color>
+    <color name="EC4">#006896</color>
+    <color name="EC5">#34687f</color>
+    <color name="EC6">#184051</color>
+    <!--기계공학 MC-->
+    <array name="MCCOLOR">
+        <item>@color/MC1</item>
+        <item>@color/MC2</item>
+        <item>@color/MC3</item>
+        <item>@color/MC4</item>
+        <item>@color/MC5</item>
+        <item>@color/MC6</item>
+    </array>
+    <color name="MC1">#e1ed00</color>
+    <color name="MC2">#c3cc24</color>
+    <color name="MC3">#aaaf48</color>
+    <color name="MC4">#7d822e</color>
+    <color name="MC5">#64681b</color>
+    <color name="MC6">#494c07</color>
+    <!--신소재 MA-->
+    <array name="MACOLOR">
+        <item>@color/MA1</item>
+        <item>@color/MA2</item>
+        <item>@color/MA3</item>
+        <item>@color/MA4</item>
+        <item>@color/MA5</item>
+        <item>@color/MA6</item>
+    </array>
+    <color name="MA1">#ed7e00</color>
+    <color name="MA2">#ffaf54</color>
+    <color name="MA3">#d89243</color>
+    <color name="MA4">#996934</color>
+    <color name="MA5">#a85900</color>
+    <color name="MA6">#593103</color>
+    <!--환경 EV-->
+    <array name="EVCOLOR">
+        <item>@color/EV1</item>
+        <item>@color/EV2</item>
+        <item>@color/EV3</item>
+        <item>@color/EV4</item>
+        <item>@color/EV5</item>
+        <item>@color/EV6</item>
+    </array>
+    <color name="EV1">#e074dc</color>
+    <color name="EV2">#c456c0</color>
+    <color name="EV3">#a33c9f</color>
+    <color name="EV4">#823a7f</color>
+    <color name="EV5">#770974</color>
+    <color name="EV6">#4c0c4a</color>
+</resources>

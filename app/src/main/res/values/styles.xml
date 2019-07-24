@@ -1,0 +1,80 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+
+        <!--Activity Transition-->
+        <!--<item name="android:windowActivityTransitions">false</item>-->
+        <!--<item name="android:windowSharedElementEnterTransition">@transition/shared_element</item>-->
+        <!--<item name="android:windowSharedElementExitTransition">@transition/shared_element</item>-->
+        <!--<item name="android:windowEnterTransition">@null</item>-->
+        <!--<item name="android:windowExitTransition">@null</item>-->
+
+        <item name="android:statusBarColor">@color/colorBlack</item>
+
+        <!--Color-->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimary</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowBackground">@color/colorBackground</item>
+        <item name="android:textColor">@color/colorText</item>
+        <item name="android:editTextColor">@color/colorTextWhite</item>
+        <item name="android:textColorHint">@color/colorTextHint</item>
+
+        <!--Font Family-->
+        <item name="android:colorForeground">@color/colorBlack</item>
+        <item name="android:colorBackground">@color/colorBackground</item>
+        <item name="android:textColorPrimary">@color/colorBlack</item>
+        <item name="android:textColorPrimaryInverse">@color/colorText</item>
+        <item name="android:textColorSecondary">@color/colorBlack</item>
+        <item name="android:textColorSecondaryInverse">@color/colorText</item>
+
+        <item name="android:windowContentTransitions">true</item>
+
+
+    </style>
+
+    <style name="BaseTextView" parent="Base.Widget.AppCompat.TextView">
+        <item name="android:textColor">@color/colorBlack</item>
+
+    </style>
+
+    <style name="ActiveBottomTextStyle" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">10sp</item>
+
+    </style>
+    <style name="InActiveBottomTextStyle" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">9sp</item>
+    </style>
+
+    <style name="SearchFilterDialog" parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="android:windowCloseOnTouchOutside">false</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:colorBackground">@color/colorBackground</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:backgroundDimAmount">0.3</item>
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowIsFloating">true</item>
+    </style>
+
+
+    <!-- set the rounded drawable as background to your bottom sheet -->
+    <style name="BottomSheet" parent="@style/Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/bottomsheet_background</item>
+    </style>
+
+    <style name="BaseBottomSheetDialog" parent="@style/Theme.Design.Light.BottomSheetDialog">
+        <item name="android:windowIsFloating">false</item>
+        <item name="bottomSheetStyle">@style/BottomSheet</item>
+        <item name="android:navigationBarColor">@android:color/white</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <!--<item name="android:statusBarColor">@color/colorWhiteSpace</item>-->
+        <!--<item name="android:fitsSystemWindows">false</item>-->
+    </style>
+
+    <style name="BaseBottomSheetDialog.BottomSheetDialogTheme" >
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+</resources>

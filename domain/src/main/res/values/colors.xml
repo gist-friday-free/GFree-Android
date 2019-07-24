@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+
+    <!--미공개-->
+    <color name="UNKNOWN">#888888</color>
+
+    <color name="ID10">#212020</color>
+    <color name="ID11">#93174f</color>
+    <color name="ID12">#a547ed</color>
+    <color name="ID13">#c65a35</color>
+    <color name="ID14">#6b524a</color>
+    <color name="ID15">#4e5656</color>
+    <color name="ID16">#d1e2ff</color>
+    <color name="ID17">#efd1ff</color>
+    <color name="ID18">#d67795</color>
+    <color name="ID19">#8977d6</color>
+    <color name="ID20">#90e5b5</color>
+    <color name="ID21">#c9e590</color>
+    <color name="ID22">#e5d790</color>
+    <color name="ID23">#e5af90</color>
+    <color name="ID24">#89a3a5</color>
+
+    <color name="MALE">#5555ff</color>
+    <color name="FEMALE">#ff5555</color>
+
+
+    <color name="Sunday">#fc1e34</color>
+    <color name="Monday">#fcae1e</color>
+    <color name="Tuesday">#fff200</color>
+    <color name="Wednesday">#73f727</color>
+    <color name="Thursday">#19fffb</color>
+    <color name="Friday">#fc19bc</color>
+    <color name="Saturday">#9418f9</color>
+    <color name="background_material_dark">#e4e4e4</color>
+    <color name="foreground_material_dark">#000000</color>
+
+
+</resources>
