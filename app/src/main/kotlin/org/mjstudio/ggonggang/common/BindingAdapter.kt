@@ -14,6 +14,8 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ItemDecoration
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import org.mjstudio.gfree.domain.entity.TimeSlot
+import org.mjstudio.ggonggang.ui.post.PostTimeSlotAdapter
 
 @BindingAdapter("android:visibility")
 fun View.setVisibility(isVisible: Boolean) {
@@ -74,4 +76,10 @@ fun RecyclerView.setAdapterBinding(adapter : RecyclerView.Adapter<ViewHolder>) {
 @BindingAdapter("app:decoration")
 fun RecyclerView.setItemDecoration(decoration: ItemDecoration) {
     this.addItemDecoration(decoration)
+}
+
+@BindingAdapter("app:timeSlotItems")
+fun RecyclerView.setTimeSlotItems(items : List<TimeSlot>) {
+    (this.adapter as? PostTimeSlotAdapter)?.items = items
+    this.adapter?.notifyDataSetChanged()
 }

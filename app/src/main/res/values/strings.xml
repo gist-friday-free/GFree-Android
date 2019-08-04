@@ -67,4 +67,5 @@
     <string name="post_duplicate_warning_title">Duplicated Request</string>
     <string name="post_duplicate_warning_body">There may be already duplicated request.\n\nCode : %s\nType : %s\nValue : %s\n\nDon\'t make duplicated request.\nInstead, you can like other\'s request.\nThe request that has many like count will be accepted easily.\n\nDo you really want to submit?\n</string>
 
+    <string name="post_add_timeslot">Add new timeslot</string>
 </resources>

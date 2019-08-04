@@ -8,6 +8,8 @@
             name="vm"
             type="org.mjstudio.ggonggang.ui.post.PostViewModel" />
 
+        <import type="org.mjstudio.gfree.domain.dto.EditDTO.Type" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -54,6 +56,7 @@
             app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:animateLayoutChanges="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -207,31 +210,37 @@
                     app:layout_constraintStart_toEndOf="@+id/materialEditText"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/button"
+                <Button
+
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/materialEditText"
+                    app:layout_constraintTop_toBottomOf="@+id/textView47"
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="8dp"
                     android:onClick="@{() -> vm.onClickNaviInformationButton()}"
                     android:visibility="@{vm.currentClassData == null ? false : true}"
-                    app:cardCornerRadius="4dp"
-                    app:cardElevation="12dp"
-                    app:cardPreventCornerOverlap="true"
-                    app:contentPadding="8dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/materialEditText"
-                    app:layout_constraintTop_toBottomOf="@+id/textView47">
+                    android:text="show"
+                     />
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:text="show"
-                        android:textSize="8sp" />
-                </androidx.cardview.widget.CardView>
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerView"
+                    android:layout_width="0dp"
+                    android:layout_height="300dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:orientation="vertical"
+                    android:visibility="@{vm.currentClassData != null &amp;&amp; (vm.selectedType == Type.TIMEADD || vm.selectedType == Type.TIMEREMOVE)}"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/materialEditText3"
+                    app:timeSlotItems="@{vm.timeSlotItems}" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
 
@@ -251,18 +260,24 @@
             app:layout_constraintStart_toStartOf="parent" />
 
         <FrameLayout
-            android:elevation="24dp"
-            android:background="#8fff"
-            android:visibility="@{vm.loading}"
-            android:clickable="true"
-            android:focusable="true"
+            tools:visibility="gone"
             android:id="@+id/progressView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="#8fff"
+            android:clickable="true"
+            android:elevation="24dp"
+            android:focusable="true"
+            android:visibility="@{vm.loading}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
             <ProgressBar
-                android:layout_gravity="center"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_gravity="center" />
 
         </FrameLayout>
 

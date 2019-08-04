@@ -44,4 +44,6 @@
     <string name="update_available">업데이트 가능</string>
     <string name="cancel">취소</string>
 
+    <string name="post_add_timeslot">새로운 시간 추가</string>
+
 </resources>

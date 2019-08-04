@@ -124,6 +124,13 @@ class PostViewModel @Inject constructor(
     }
 
     /**
+     * RecyclerView에서 보여줄 TimeSlot 아이템들
+     */
+    val timeSlotItems = Transformations.map(currentClassData) {classData->
+        classData?.time ?: listOf()
+    }
+
+    /**
      * NewValueText에 해당하는 값 텍스트, Inverse Binding
      */
     val newValueText = MutableLiveData("")

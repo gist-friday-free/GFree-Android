@@ -9,9 +9,11 @@ import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import dagger.android.support.DaggerFragment
 import org.mjstudio.gfree.domain.common.debugE
-import org.mjstudio.ggonggang.R
 import org.mjstudio.ggonggang.common.observeOnce
 import org.mjstudio.ggonggang.common.showSnackbar
 import org.mjstudio.ggonggang.common.toast
@@ -19,6 +21,8 @@ import org.mjstudio.ggonggang.databinding.FragmentPostBinding
 import org.mjstudio.ggonggang.di.ViewModelFactory
 import org.mjstudio.ggonggang.ui.information.InformationFragmentDirections
 import javax.inject.Inject
+
+
 
 class PostFragment : DaggerFragment() {
     private val TAG = PostFragment::class.java.simpleName
@@ -44,9 +48,42 @@ class PostFragment : DaggerFragment() {
         mBinding.vm = mViewModel
         mBinding.lifecycleOwner = viewLifecycleOwner
 
+        initRecyclerView()
         listenViewModel()
 
         return mBinding.root
+    }
+
+    private fun initRecyclerView() {
+        val adapter = PostTimeSlotAdapter()
+        mBinding.recyclerView.adapter = adapter
+
+        val helper = ItemTouchHelper(object : ItemTouchHelper.Callback() {
+            override fun getMovementFlags(recyclerView: RecyclerView, viewHolder: ViewHolder): Int {
+                val dragFlags = ItemTouchHelper.UP or ItemTouchHelper.DOWN
+                val swipeFlags = ItemTouchHelper.START or ItemTouchHelper.END
+                return makeMovementFlags(dragFlags, swipeFlags)
+            }
+
+            override fun onMove(recyclerView: RecyclerView, viewHolder: ViewHolder, target: ViewHolder): Boolean {
+                return true
+            }
+
+            override fun onSwiped(viewHolder: ViewHolder, direction: Int) {
+                adapter.onItemDismiss(viewHolder.adapterPosition)
+            }
+
+
+
+            override fun isItemViewSwipeEnabled(): Boolean {
+                return true
+            }
+
+            override fun isLongPressDragEnabled(): Boolean {
+                return true
+            }
+        })
+        helper.attachToRecyclerView(mBinding.recyclerView)
     }
 
 
@@ -80,12 +117,12 @@ class PostFragment : DaggerFragment() {
 
             removeRequest.observeOnce(viewLifecycleOwner) { classData->
                 AlertDialog.Builder(context!!)
-                        .setTitle(R.string.post_remove_title)
-                        .setMessage(resources.getString(R.string.post_remove_body).format(classData.name))
-                        .setPositiveButton(R.string.yes) {_,_->
+                        .setTitle(org.mjstudio.ggonggang.R.string.post_remove_title)
+                        .setMessage(resources.getString(org.mjstudio.ggonggang.R.string.post_remove_body).format(classData.name))
+                        .setPositiveButton(org.mjstudio.ggonggang.R.string.yes) { _, _->
                             mViewModel.onClickRemoveClassButton(classData)
                         }
-                        .setNegativeButton(R.string.no){_,_->
+                        .setNegativeButton(org.mjstudio.ggonggang.R.string.no){ _, _->
 
                         }
                         .show()
@@ -98,12 +135,12 @@ class PostFragment : DaggerFragment() {
             duplicateItemExist.observeOnce(viewLifecycleOwner) {
 
                 AlertDialog.Builder(context!!)
-                        .setTitle(R.string.post_duplicate_warning_title)
-                        .setMessage(resources.getString(R.string.post_duplicate_warning_body).format(it.editClassData.code,it.type,it.value))
-                        .setPositiveButton(R.string.yes) { _, _->
+                        .setTitle(org.mjstudio.ggonggang.R.string.post_duplicate_warning_title)
+                        .setMessage(resources.getString(org.mjstudio.ggonggang.R.string.post_duplicate_warning_body).format(it.editClassData.code,it.type,it.value))
+                        .setPositiveButton(org.mjstudio.ggonggang.R.string.yes) { _, _->
                             mViewModel.createEditRequest(it)
                         }
-                        .setNegativeButton(R.string.no) { _, _ ->
+                        .setNegativeButton(org.mjstudio.ggonggang.R.string.no) { _, _ ->
 
                         }
                         .show()
