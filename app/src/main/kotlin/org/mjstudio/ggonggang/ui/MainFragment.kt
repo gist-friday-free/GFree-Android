@@ -48,6 +48,8 @@ class MainFragment : DaggerFragment() {
         mBinding.viewPager.isUserInputEnabled = false
     }
 
+
+
     private fun listenViewModel() {
         mViewModel.apply {
             this.currentNavigationTab.observe(viewLifecycleOwner, Observer {

@@ -225,7 +225,7 @@
                     android:text="show"
                      />
 
-                <androidx.recyclerview.widget.RecyclerView
+                <org.mjstudio.ggonggang.common.LeaklessRecyclerView
                     android:id="@+id/recyclerView"
                     android:layout_width="0dp"
                     android:layout_height="300dp"
