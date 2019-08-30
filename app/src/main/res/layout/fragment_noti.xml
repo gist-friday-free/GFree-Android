@@ -19,7 +19,6 @@
         <androidx.recyclerview.widget.RecyclerView
             android:layoutAnimation="@anim/layout_animation_fall_down"
             android:id="@+id/recyclerView_noti"
-            app:adapter="@{vm.adapter}"
             app:notiItems="@{vm.notiItems}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             android:orientation="vertical"

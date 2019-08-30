@@ -12,6 +12,7 @@ import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_notice.*
 import org.mjstudio.gfree.domain.adapter.toEntity
 import org.mjstudio.gfree.domain.dto.NoticeDTO
+import org.mjstudio.ggonggang.common.AutoClearedValue
 import org.mjstudio.ggonggang.databinding.FragmentNoticeBinding
 import org.mjstudio.ggonggang.ui.MainFragmentDirections
 import javax.inject.Inject
@@ -20,7 +21,7 @@ class NoticeFragment : Fragment(), NoticeContract.View {
 
     private val TAG = NoticeFragment::class.java.simpleName
 
-    private lateinit var mBinding: FragmentNoticeBinding
+    private var mBinding: FragmentNoticeBinding by AutoClearedValue()
 
     private var mAdapter: NoticeRecyclerAdapter? = null
     @Inject

@@ -9,11 +9,12 @@ import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.android.synthetic.main.fragment_setting.*
 import org.mjstudio.gfree.domain.constant.Constant.SETTING_NOTICE
 import org.mjstudio.ggonggang.application.sp
+import org.mjstudio.ggonggang.common.AutoClearedValue
 import org.mjstudio.ggonggang.databinding.FragmentSettingBinding
 import org.mjstudio.ggonggang.util.NotificationTopic
 
 class SettingFragment : Fragment() {
-    private lateinit var mBinding: org.mjstudio.ggonggang.databinding.FragmentSettingBinding
+    private var mBinding: org.mjstudio.ggonggang.databinding.FragmentSettingBinding by AutoClearedValue()
     private val TAG = SettingFragment::class.java.simpleName
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

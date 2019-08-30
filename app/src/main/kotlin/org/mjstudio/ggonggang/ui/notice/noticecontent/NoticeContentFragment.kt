@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import org.mjstudio.gfree.domain.entity.Notice
+import org.mjstudio.ggonggang.common.AutoClearedValue
 import org.mjstudio.ggonggang.databinding.FragmentNoticeContentBinding
 import java.text.SimpleDateFormat
 import java.util.*
@@ -14,7 +15,7 @@ import java.util.*
 class NoticeContentFragment : Fragment() {
     private val args: NoticeContentFragmentArgs by navArgs()
     private lateinit var mNoticeItem: Notice
-    private lateinit var mBinding: FragmentNoticeContentBinding
+    private var mBinding: FragmentNoticeContentBinding by AutoClearedValue<FragmentNoticeContentBinding>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         mBinding = FragmentNoticeContentBinding.inflate(inflater, container, false)
@@ -32,5 +33,10 @@ class NoticeContentFragment : Fragment() {
 
         mBinding.textViewNoticeTime.text = simple.format(Date(mNoticeItem.time))
         mBinding.textViewNoticeBody.text = mNoticeItem.body
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+
     }
 }

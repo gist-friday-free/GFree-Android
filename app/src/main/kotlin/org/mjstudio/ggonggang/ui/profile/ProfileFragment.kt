@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.PagerSnapHelper
 import dagger.android.support.DaggerFragment
 import org.mjstudio.gfree.domain.common.debugE
 import org.mjstudio.gfree.domain.repository.UserRepository
+import org.mjstudio.ggonggang.common.AutoClearedValue
 import org.mjstudio.ggonggang.databinding.FragmentProfileBinding
 import org.mjstudio.ggonggang.di.ViewModelFactory
 import org.mjstudio.ggonggang.widget.OnSnapPositionChangeListener
@@ -25,7 +26,7 @@ class ProfileFragment : DaggerFragment() {
 
     lateinit var mViewModel : ProfileViewModel
 
-    private lateinit var mBinding: FragmentProfileBinding
+    private var mBinding: FragmentProfileBinding by AutoClearedValue()
     private val TAG = ProfileFragment::class.java.simpleName
 
 

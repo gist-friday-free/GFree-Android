@@ -14,6 +14,7 @@ import org.mjstudio.gfree.domain.common.debugE
 import org.mjstudio.gfree.domain.common.rxSingleTimer
 import org.mjstudio.ggonggang.R
 import org.mjstudio.ggonggang.application.GFreeApplication
+import org.mjstudio.ggonggang.common.AutoClearedValue
 import org.mjstudio.ggonggang.databinding.FragmentSplashBinding
 import org.mjstudio.ggonggang.di.ViewModelFactory
 import org.mjstudio.ggonggang.ui.auth.AuthViewModel
@@ -30,7 +31,7 @@ class SplashFragment : DaggerFragment() {
 
     private val TAG = SplashFragment::class.java.simpleName
 
-    private lateinit var mBinding: FragmentSplashBinding
+    private var mBinding: FragmentSplashBinding by AutoClearedValue()
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
@@ -46,9 +47,8 @@ class SplashFragment : DaggerFragment() {
         return mBinding.root
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         checkVersion()
     }
 

@@ -69,10 +69,6 @@ fun SwipeRefreshLayout.setRefreshState(refresh : Boolean) {
     this.isRefreshing = refresh
 }
 
-@BindingAdapter("app:adapter")
-fun RecyclerView.setAdapterBinding(adapter : RecyclerView.Adapter<ViewHolder>) {
-    this.adapter = adapter
-}
 @BindingAdapter("app:decoration")
 fun RecyclerView.setItemDecoration(decoration: ItemDecoration) {
     this.addItemDecoration(decoration)

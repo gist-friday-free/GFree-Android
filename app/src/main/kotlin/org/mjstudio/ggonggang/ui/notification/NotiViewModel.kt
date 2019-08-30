@@ -31,7 +31,6 @@ class NotiViewModel @Inject constructor(private val dao : NotiDAO) : ViewModel()
             NotiDTO(-1,"title",Date().time,"body")
     ))
 
-    val adapter = MutableLiveData(NotiAdapter())
 
     init {
         loadNotiDatas()

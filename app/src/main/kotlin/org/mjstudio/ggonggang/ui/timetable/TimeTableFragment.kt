@@ -11,6 +11,7 @@ import androidx.navigation.fragment.findNavController
 import dagger.android.support.DaggerFragment
 import org.mjstudio.gfree.domain.repository.UserRepository
 import org.mjstudio.ggonggang.R
+import org.mjstudio.ggonggang.common.AutoClearedValue
 import org.mjstudio.ggonggang.common.observeOnce
 import org.mjstudio.ggonggang.common.toast
 import org.mjstudio.ggonggang.databinding.FragmentTimetableBinding
@@ -29,7 +30,7 @@ class TimeTableFragment : DaggerFragment() {
     lateinit var viewModelFactory: ViewModelFactory
 
     private lateinit var mViewModel: TimeTableViewModel
-    private lateinit var mBinding: FragmentTimetableBinding
+    private var mBinding: FragmentTimetableBinding by AutoClearedValue()
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

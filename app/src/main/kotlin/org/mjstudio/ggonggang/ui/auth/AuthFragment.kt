@@ -1,15 +1,14 @@
 package org.mjstudio.ggonggang.ui.auth
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
-import dagger.android.support.DaggerFragment
 import org.mjstudio.gfree.domain.common.GeneralMsg
 import org.mjstudio.gfree.domain.common.rxSingleTimer
 import org.mjstudio.ggonggang.R
+import org.mjstudio.ggonggang.R.layout
+import org.mjstudio.ggonggang.common.BaseDaggerFragment
 import org.mjstudio.ggonggang.common.observeOnce
 import org.mjstudio.ggonggang.common.showSnackbar
 import org.mjstudio.ggonggang.common.toast
@@ -18,31 +17,26 @@ import org.mjstudio.ggonggang.di.ViewModelFactory
 import javax.inject.Inject
 
 typealias SNACKBAR_ACTION = String
-class AuthFragment : DaggerFragment() {
-    private val TAG = AuthFragment::class.java.simpleName
+class AuthFragment : BaseDaggerFragment<FragmentAuthBinding,AuthViewModel>(layout.fragment_auth) {
+
+	private val TAG = AuthFragment::class.java.simpleName
 
     companion object {
         const val ACTION_VERIFICATION: SNACKBAR_ACTION = "VERIFICATION"
         const val ACTION_PASSWORDRESET: SNACKBAR_ACTION = "PASSWORDRESET"
     }
 
-    private lateinit var mBinding: FragmentAuthBinding
-
     @Inject
-    lateinit var viewModelFactory: ViewModelFactory
-    private lateinit var mViewModel: AuthViewModel
+    lateinit var viewModelFactory : ViewModelFactory
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        mViewModel = ViewModelProviders.of(activity!!, viewModelFactory)[AuthViewModel::class.java]
+    override lateinit var mViewModel: AuthViewModel
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        mViewModel = ViewModelProviders.of(activity!!,viewModelFactory).get(AuthViewModel::class.java)
+        super.onViewCreated(view, savedInstanceState)
+
         this.lifecycle.addObserver(mViewModel)
-
-        mBinding = FragmentAuthBinding.inflate(inflater, container, false)
-        mBinding.lifecycleOwner = viewLifecycleOwner
-        mBinding.vm = mViewModel
-
         listenViewModel()
-
-        return mBinding.root
     }
     private fun listenViewModel() {
         mViewModel.apply {
@@ -92,3 +86,5 @@ class AuthFragment : DaggerFragment() {
         }
     }
 }
+
+

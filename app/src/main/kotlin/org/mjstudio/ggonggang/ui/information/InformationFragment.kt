@@ -21,6 +21,7 @@ import dagger.android.support.DaggerFragment
 import org.mjstudio.gfree.domain.common.debugE
 import org.mjstudio.gfree.domain.entity.ClassData
 import org.mjstudio.ggonggang.R
+import org.mjstudio.ggonggang.common.AutoClearedValue
 import org.mjstudio.ggonggang.common.observeOnce
 import org.mjstudio.ggonggang.common.showSnackbar
 import org.mjstudio.ggonggang.common.toast
@@ -39,7 +40,7 @@ class InformationFragment : Fragment()  {
     @Inject
     lateinit var viewModelFactory : InformationViewModelFactory
 
-    private lateinit var mBinding: FragmentInformationBinding
+    private var mBinding: FragmentInformationBinding by AutoClearedValue()
     private lateinit var mViewModel : InformationViewModel
     lateinit var classData: ClassData
 

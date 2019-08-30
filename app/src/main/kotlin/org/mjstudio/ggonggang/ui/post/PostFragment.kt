@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import dagger.android.support.DaggerFragment
 import org.mjstudio.gfree.domain.common.debugE
+import org.mjstudio.ggonggang.common.AutoClearedValue
 import org.mjstudio.ggonggang.common.observeOnce
 import org.mjstudio.ggonggang.common.showSnackbar
 import org.mjstudio.ggonggang.common.toast
@@ -30,7 +31,7 @@ class PostFragment : DaggerFragment() {
     @Inject
     lateinit var viewModelFactory : ViewModelFactory
 
-    private lateinit var mBinding : FragmentPostBinding
+    private var mBinding : FragmentPostBinding by AutoClearedValue()
     private lateinit var mViewModel : PostViewModel
 
     private var mDialog : PostTypeSelectBottomSheet? = null

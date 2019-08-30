@@ -344,7 +344,6 @@
 
                 <androidx.recyclerview.widget.RecyclerView
                     app:classes="@{userRepository.getRegisteredClassDataLiveData()}"
-                    app:adapter="@{vm.adapter}"
 
                     android:id="@+id/recyclerView_profile"
                     android:layout_width="0dp"

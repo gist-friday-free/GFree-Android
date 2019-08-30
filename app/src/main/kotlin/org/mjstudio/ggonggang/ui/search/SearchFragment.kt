@@ -23,6 +23,7 @@ import org.mjstudio.gfree.domain.common.rxSingleTimer
 import org.mjstudio.gfree.domain.entity.ClassData
 import org.mjstudio.gfree.domain.repository.UserRepository
 import org.mjstudio.ggonggang.R
+import org.mjstudio.ggonggang.common.AutoClearedValue
 import org.mjstudio.ggonggang.common.observeOnce
 import org.mjstudio.ggonggang.common.showSnackbar
 import org.mjstudio.ggonggang.common.toast
@@ -39,7 +40,7 @@ class SearchFragment : DaggerFragment() {
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
 
-    private lateinit var mBinding: FragmentSearchBinding
+    private var mBinding: FragmentSearchBinding by AutoClearedValue()
     private lateinit var mMainViewModel : MainViewModel
     private lateinit var mViewModel: SearchViewModel
     private var mAdapter : SearchItemAdapter? = null

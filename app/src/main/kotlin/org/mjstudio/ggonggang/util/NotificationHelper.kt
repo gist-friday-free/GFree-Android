@@ -6,6 +6,8 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.os.Build
+import android.os.Build.VERSION
+import android.os.Build.VERSION_CODES
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationCompat.PRIORITY_MAX
@@ -31,6 +33,7 @@ object NotificationHelper {
     fun createChannels(context: Context) {
 
         val notiManager = NotificationManagerCompat.from(context)
+
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val generalName = context.resources.getString(R.string.noti_general_name)
