@@ -96,7 +96,7 @@
 
                 android:layoutAnimation="@anim/layout_animation_fall_down"
                 android:overScrollMode="never"
-                app:classes="@{vm.filteredClassData}" />
+                />
 
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 

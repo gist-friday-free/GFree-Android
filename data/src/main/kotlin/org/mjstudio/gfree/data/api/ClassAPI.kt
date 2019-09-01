@@ -1,6 +1,7 @@
 package org.mjstudio.gfree.data.api
 
 import org.mjstudio.gfree.domain.dto.ClassDataDTO
+import org.mjstudio.gfree.domain.dto.ClassDataListResponse
 import org.mjstudio.gfree.domain.dto.EditDTO
 import org.mjstudio.gfree.domain.dto.ReviewDTO
 import org.mjstudio.gfree.domain.dto.UserInfoDTO
@@ -17,18 +18,20 @@ interface ClassAPI {
     @POST("class/")
     suspend fun createClassData(@Body body: ClassDataDTO): ClassDataDTO
 
-    @GET("class/")
-    suspend fun getClassDataWithCode(
-            @Query("code") code : String,
-            @Query("year") year : Int,
-            @Query("semester") semester : Int
-    ): ClassDataDTO
+
 
     @GET("class/")
     suspend fun getClassDataList(
         @Query("year") year: Int,
         @Query("semester") semester: Int
-    ): List<ClassDataDTO>
+    ): ClassDataListResponse
+
+    @GET("class/")
+    suspend fun getClassDataListWithPage(
+            @Query("year") year : Int,
+            @Query("semester") semester : Int,
+            @Query("page") page: Int
+    ): ClassDataListResponse
 
     @GET("class/{id}/users")
     suspend fun getUsersInClass(@Path("id") id: Int): List<UserInfoDTO>
@@ -40,6 +43,13 @@ interface ClassAPI {
 
     @GET("class/{id}")
     suspend fun getClassData(@Path("id") id: Int): ClassDataDTO
+
+    @GET("class/code/{code}")
+    suspend fun getClassDataWithCode(
+            @Path("code") code : String,
+            @Query("year") year : Int,
+            @Query("semester") semester : Int
+    ): ClassDataDTO
 
     @PUT("class/{id}")
     suspend fun updateClassData(@Path("id") id: Int): ClassDataDTO

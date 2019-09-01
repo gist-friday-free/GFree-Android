@@ -3,6 +3,7 @@ package org.mjstudio.gfree.data.repository
 import org.mjstudio.gfree.data.api.ClassAPI
 import org.mjstudio.gfree.domain.adapter.toDTO
 import org.mjstudio.gfree.domain.adapter.toEntity
+import org.mjstudio.gfree.domain.dto.ClassDataListResponse
 import org.mjstudio.gfree.domain.dto.ReviewDTO
 import org.mjstudio.gfree.domain.entity.ClassData
 import org.mjstudio.gfree.domain.entity.Edit
@@ -15,9 +16,12 @@ import javax.inject.Singleton
 class ClassDataRepositoryImpl @Inject constructor(private val classAPI: ClassAPI) : ClassDataRepository {
 
 
+    override suspend fun getClassDataListWithPage(year: Int, semester: Int, page : Int): ClassDataListResponse {
+        return classAPI.getClassDataListWithPage(year,semester,page)
+    }
 
-    override suspend fun getClassDataList(year: Int, semester: Int): List<ClassData> {
-        return classAPI.getClassDataList(year, semester).toEntity().toList()
+    override suspend fun getClassDataList(year: Int, semester: Int): ClassDataListResponse {
+        return classAPI.getClassDataList(year, semester)
     }
 
     override suspend fun getClassData(id: Int): ClassData {
@@ -33,9 +37,6 @@ class ClassDataRepositoryImpl @Inject constructor(private val classAPI: ClassAPI
     }
 
 
-    override suspend fun getRegisteredClassDataList(year: Int, semester: Int): List<ClassData> {
-        return classAPI.getClassDataList(year, semester).toEntity().toList()
-    }
 
     override suspend fun getParticipantCount(year: Int, semester: Int): Int {
         TODO("not implemented") // To change body of created suspend functions use File | Settings | File Templates.

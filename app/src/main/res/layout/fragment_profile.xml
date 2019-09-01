@@ -339,7 +339,6 @@
                 android:layout_height="match_parent">
 
                 <androidx.recyclerview.widget.RecyclerView
-                    app:classes="@{userRepository.getRegisteredClassDataLiveData()}"
 
                     android:id="@+id/recyclerView_profile"
                     android:layout_width="0dp"

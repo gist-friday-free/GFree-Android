@@ -26,6 +26,8 @@ object Versions {
 
   const val navigation_ui_ktx: String = "2.1.0-alpha04"
 
+  const val paging_runtime_ktx: String = "2.1.0"
+
   const val room_compiler: String = "2.2.0-alpha01"
 
   const val room_ktx: String = "2.2.0-beta01"

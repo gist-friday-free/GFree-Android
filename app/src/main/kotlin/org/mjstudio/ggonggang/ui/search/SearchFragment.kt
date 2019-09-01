@@ -11,6 +11,7 @@ import androidx.navigation.Navigator
 import androidx.navigation.NavigatorProvider
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
+import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.transition.ChangeBounds
 import androidx.transition.Transition
@@ -91,6 +92,11 @@ class SearchFragment : DaggerFragment() {
 
     private fun listenViewModel() {
         mViewModel.apply {
+
+            filteredClassData.observe(viewLifecycleOwner, Observer {
+                (mBinding.recyclerView.adapter as? SearchItemAdapter)?.submitList(it)
+            })
+
             clickFilterButton.observeOnce(viewLifecycleOwner) {settings->
                 val dir = MainFragmentDirections.actionMainFragmentToSearchFilterBottomSheet(settings)
                 findNavController().navigate(dir)

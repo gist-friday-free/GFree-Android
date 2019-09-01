@@ -3,9 +3,12 @@ package org.mjstudio.ggonggang.ui.search
 import android.view.View
 import androidx.databinding.BindingAdapter
 import androidx.lifecycle.LifecycleObserver
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.LivePagedListBuilder
+import androidx.paging.PagedList
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
@@ -21,6 +24,7 @@ import org.mjstudio.gfree.domain.common.Once
 import org.mjstudio.gfree.domain.common.PositiveMsg
 import org.mjstudio.gfree.domain.common.debugE
 import org.mjstudio.gfree.domain.constant.Constant
+import org.mjstudio.gfree.domain.datasource.ClassDataSourceFactory
 import org.mjstudio.gfree.domain.entity.ClassData
 import org.mjstudio.gfree.domain.enumerator.Major
 import org.mjstudio.gfree.domain.repository.ClassDataRepository
@@ -35,7 +39,8 @@ import javax.inject.Inject
 class SearchViewModel @Inject constructor(
         private val authRepository: FirebaseAuthRepository,
         private val classDataRepository: ClassDataRepository,
-        private val userRepository: UserRepository
+        private val userRepository: UserRepository,
+        private val dataSourceFactory : ClassDataSourceFactory
 ) : ViewModel(), LifecycleObserver {
     /**
      * 이번 년도, 이번 학기에 해당하는 모든 과목의 데이터
@@ -44,7 +49,7 @@ class SearchViewModel @Inject constructor(
     /**
      * RecyclerView에 보일 데이터
      */
-    val filteredClassData: MutableLiveData<List<ClassData>> = MutableLiveData(listOf())
+    val filteredClassData: LiveData<PagedList<ClassData>> = LivePagedListBuilder<String,ClassData>(dataSourceFactory,10).build()
 
     private val TAG = SearchViewModel::class.java.simpleName
     //region DATA
@@ -102,7 +107,7 @@ class SearchViewModel @Inject constructor(
             try {
                 val it = classDataRepository.getClassDataList(Constant.CURRENT_YEAR, Constant.CURRENT_SEMESTER)
 
-                allClassData = it
+                allClassData = it.classes.toEntity().toList()
                 setFilteredClassData(query)
                 startLayoutAnim.value = Once(true)
 
@@ -126,12 +131,12 @@ class SearchViewModel @Inject constructor(
      * 불러온 해당 년도, 학기의 모든 과목 중에 필터링 된 것들만 리스트에 뜨게 한다.
      */
     private fun setFilteredClassData(query : String) {
-        filteredClassData.value = allClassData.filter {
-            if (query == "")
-                filterWithSettings(it)
-            else
-                filterWithQuery(it, query) && filterWithSettings(it)
-        }
+//        filteredClassData.value = allClassData.filter {
+//            if (query == "")
+//                filterWithSettings(it)
+//            else
+//                filterWithQuery(it, query) && filterWithSettings(it)
+//        }
     }
 
     // 필터링 설정을 한 것을 기반으로 통과할 시에 true를 반환
@@ -279,18 +284,6 @@ class SearchViewModel @Inject constructor(
     }
 }
 
-@BindingAdapter("app:classes")
-fun RecyclerView.setClasses(classes: List<ClassData>) {
-    (this.adapter as? SearchItemAdapter)?.let {
-        it.items = classes
-        it.notifyDataSetChanged()
-    }
-
-    (this.adapter as? ProfileAdapter)?.let {
-        it.items = classes
-        it.notifyDataSetChanged()
-    }
-}
 
 
 @BindingAdapter("app:searchViewListener")

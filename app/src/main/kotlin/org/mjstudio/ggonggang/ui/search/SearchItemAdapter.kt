@@ -4,6 +4,8 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
+import androidx.paging.PagedListAdapter
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import org.mjstudio.gfree.domain.entity.ClassData
 import org.mjstudio.gfree.domain.repository.UserRepository
@@ -14,9 +16,20 @@ import org.mjstudio.ggonggang.databinding.ItemClassBinding
 import org.mjstudio.ggonggang.ui.search.SearchItemAdapter.SearchViewHolder
 import org.mjstudio.ggonggang.util.ClassDataUtil
 
-class SearchItemAdapter(private val userRepository: UserRepository, private val vm: SearchViewModel, private val viewLifecycleOwner : LifecycleOwner) : RecyclerView.Adapter<SearchViewHolder>() {
+class SearchItemAdapter(private val userRepository: UserRepository, private val vm: SearchViewModel, private val viewLifecycleOwner : LifecycleOwner)
+    : PagedListAdapter<ClassData, SearchViewHolder>(classDataDiff) {
 
-    var items: List<ClassData> = mutableListOf()
+    companion object {
+        val classDataDiff = object : DiffUtil.ItemCallback<ClassData>() {
+            override fun areItemsTheSame(oldItem: ClassData, newItem: ClassData): Boolean {
+                return oldItem.id == newItem.id
+            }
+
+            override fun areContentsTheSame(oldItem: ClassData, newItem: ClassData): Boolean {
+                return oldItem == newItem
+            }
+        }
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -26,11 +39,10 @@ class SearchItemAdapter(private val userRepository: UserRepository, private val 
         return SearchViewHolder(mBinding)
     }
 
-    override fun getItemCount() = items.size
 
     override fun onBindViewHolder(holder: SearchViewHolder, position: Int) {
-        val item = items[position]
-        holder.bind(item)
+
+        holder.bind(getItem(position))
     }
 
     inner class SearchViewHolder(private val binding: ItemClassBinding) : RecyclerView.ViewHolder(binding.root) {
@@ -69,7 +81,12 @@ class SearchItemAdapter(private val userRepository: UserRepository, private val 
             })
         }
 
-        private fun checkDuplicateAndChangeBackground(registeredClasses : List<ClassData>,item: ClassData) {
+        private fun checkDuplicateAndChangeBackground(registeredClasses : List<ClassData>,item: ClassData?) {
+            if(item == null) {
+                binding.root.setBackgroundColor(appResources.getColor(R.color.colorBackground))
+                return
+            }
+
             if (ClassDataUtil.checkDuplicate(registeredClasses, item).first) {
                 binding.root.setBackgroundColor(appResources.getColor(R.color.colorTextHint))
             } else {
@@ -77,7 +94,7 @@ class SearchItemAdapter(private val userRepository: UserRepository, private val 
             }
         }
 
-        fun bind(item: ClassData) {
+        fun bind(item: ClassData?) {
             binding.item = item
             if(needStoreRegisteredClasses) {
                 checkDuplicateAndChangeBackground(lastRegisteredClasses, item)
