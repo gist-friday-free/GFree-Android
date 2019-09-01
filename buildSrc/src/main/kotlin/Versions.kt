@@ -1,4 +1,4 @@
-
+import kotlin.String
 import org.gradle.plugin.use.PluginDependenciesSpec
 import org.gradle.plugin.use.PluginDependencySpec
 
@@ -26,7 +26,11 @@ object Versions {
 
   const val navigation_ui_ktx: String = "2.1.0-alpha04"
 
-  const val androidx_room: String = "2.2.0-alpha01"
+  const val room_compiler: String = "2.2.0-alpha01"
+
+  const val room_ktx: String = "2.2.0-beta01"
+
+  const val room_runtime: String = "2.2.0-alpha01"
 
   const val viewpager2: String = "1.0.0-beta03"
 

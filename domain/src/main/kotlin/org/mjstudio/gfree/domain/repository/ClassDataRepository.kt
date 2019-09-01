@@ -1,7 +1,5 @@
 package org.mjstudio.gfree.domain.repository
 
-import io.reactivex.Completable
-import io.reactivex.Single
 import org.mjstudio.gfree.domain.dto.ClassDataDTO
 import org.mjstudio.gfree.domain.dto.EditDTO
 import org.mjstudio.gfree.domain.dto.ReviewDTO
@@ -9,19 +7,19 @@ import org.mjstudio.gfree.domain.dto.UserInfoDTO
 import org.mjstudio.gfree.domain.entity.ClassData
 
 interface ClassDataRepository {
-    fun getClassDataList(year: Int, semester: Int): Single<List<ClassDataDTO>>
-    fun getClassData(id: Int): Single<ClassDataDTO>
+    suspend fun getClassDataList(year: Int, semester: Int): List<ClassDataDTO>
+    suspend fun getClassData(id: Int): ClassDataDTO
 
-    fun addClass(data: ClassData): Completable
-    fun deleteClass(data: ClassData): Completable
+    suspend fun addClass(data: ClassData)
+    suspend fun deleteClass(data: ClassData)
 
-    fun getRegisteredClassDataList(year: Int, semester: Int): Single<List<ClassDataDTO>>
+    suspend fun getRegisteredClassDataList(year: Int, semester: Int): List<ClassDataDTO>
 
 
-    fun getParticipantCount(year: Int, semester: Int): Single<Int>
-    fun getUsersInClass(id: Int): Single<List<UserInfoDTO>>
-    fun getReviewsInClass(id: Int): Single<List<ReviewDTO>>
-    fun getEditsInClass(id : Int): Single<List<EditDTO>>
+    suspend fun getParticipantCount(year: Int, semester: Int): Int
+    suspend fun getUsersInClass(id: Int): List<UserInfoDTO>
+    suspend fun getReviewsInClass(id: Int): List<ReviewDTO>
+    suspend fun getEditsInClass(id : Int): List<EditDTO>
 
-    fun getClassDataWithCode(code : String, year: Int, semester : Int) : Single<ClassDataDTO>
+    suspend fun getClassDataWithCode(code : String, year: Int, semester : Int) : ClassDataDTO
 }

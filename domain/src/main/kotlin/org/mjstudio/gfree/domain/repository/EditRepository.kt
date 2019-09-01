@@ -1,21 +1,20 @@
 package org.mjstudio.gfree.domain.repository
 
-import io.reactivex.Single
 import org.mjstudio.gfree.domain.dto.EditDTO
 import org.mjstudio.gfree.domain.dto.UserInfoDTO
 import org.mjstudio.gfree.domain.entity.Edit
 
 interface EditRepository {
 
-    fun createEditRequest(edit : EditDTO) : Single<EditDTO>
+    suspend fun createEditRequest(edit : EditDTO) : EditDTO
 
-    fun getEditList(year: Int, semester : Int) : Single<List<EditDTO>>
+    suspend fun getEditList(year: Int, semester : Int) : List<EditDTO>
 
-    fun getEditListWithCode(code : String,year : Int, semester : Int) : Single<List<EditDTO>>
+    suspend fun getEditListWithCode(code : String,year : Int, semester : Int) : List<EditDTO>
 
-    fun getStarUsersInEdit(edit : EditDTO) : Single<List<UserInfoDTO>>
+    suspend fun getStarUsersInEdit(edit : EditDTO) : List<UserInfoDTO>
 
-    fun addStar(edit : Edit, uid : String) : Single<EditDTO>
-    fun removeStar(edit : Edit, uid : String ) : Single<EditDTO>
+    suspend fun addStar(edit : Edit, uid : String) : EditDTO
+    suspend fun removeStar(edit : Edit, uid : String ) : EditDTO
 
 }
