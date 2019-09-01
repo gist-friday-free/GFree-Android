@@ -8,7 +8,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import androidx.viewpager2.widget.ViewPager2
-import org.mjstudio.gfree.domain.common.addSchedulers
 import org.mjstudio.gfree.domain.constant.Constant
 import org.mjstudio.gfree.domain.repository.ClassDataRepository
 import org.mjstudio.gfree.domain.repository.FirebaseAuthRepository

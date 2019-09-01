@@ -2,7 +2,6 @@ package org.mjstudio.ggonggang.di.module
 
 import dagger.Module
 import dagger.Provides
-import io.reactivex.Single
 import org.mjstudio.gfree.data.api.ClassAPI
 import org.mjstudio.gfree.data.api.EditAPI
 import org.mjstudio.gfree.data.api.NoticeAPI
@@ -10,8 +9,6 @@ import org.mjstudio.gfree.data.api.PlayStoreAPI
 import org.mjstudio.gfree.data.api.ReviewAPI
 import org.mjstudio.gfree.data.api.ServerAPI
 import org.mjstudio.gfree.data.api.UserAPI
-import org.mjstudio.gfree.domain.dto.PlayStoreDTO
-import org.mjstudio.gfree.domain.repository.PlayStoreRepository
 import retrofit2.Retrofit
 import javax.inject.Singleton
 
@@ -33,11 +30,6 @@ class RetrofitAPIModule {
     @Singleton
     fun providePlayStoreAPI(retrofit: Retrofit): PlayStoreAPI {
         return retrofit.create(PlayStoreAPI::class.java)
-    }
-    @Provides
-    @Singleton
-    fun providePlayStoreInfo(playStoreRepository: PlayStoreRepository): Single<PlayStoreDTO> {
-        return playStoreRepository.getPlayStoreInfo()
     }
     @Provides
     @Singleton

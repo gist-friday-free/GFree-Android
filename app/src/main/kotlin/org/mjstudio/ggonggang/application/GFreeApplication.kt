@@ -31,8 +31,6 @@ class GFreeApplication : DaggerApplication() {
     @Inject
     lateinit var sp: SPService
 
-    @Inject
-    lateinit var playStoreInfoSingle: Single<PlayStoreDTO>
     lateinit var appResources: Resources
     @Inject
     lateinit var authRepository: FirebaseAuthRepository
