@@ -3,67 +3,62 @@ package org.mjstudio.gfree.data.repository
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import io.reactivex.Completable
-import io.reactivex.Single
+import kotlinx.coroutines.suspendCancellableCoroutine
 import org.mjstudio.gfree.domain.dto.AccountDTO
 import org.mjstudio.gfree.domain.repository.FirebaseAuthRepository
 import javax.inject.Inject
 import javax.inject.Singleton
+import kotlin.coroutines.resume
 
 @Singleton
 class FirebaseAuthRepositoryImpl @Inject constructor(private val auth: FirebaseAuth) : FirebaseAuthRepository {
-    override fun isLogin(): Boolean {
+    override suspend fun isLogin(): Boolean {
         return auth.currentUser != null
     }
 
-    override fun createFirebaseAccount(account: AccountDTO): Single<AuthResult> {
-        return Single.create { emitter ->
-            auth.createUserWithEmailAndPassword(account.email, account.password)
-                    .addOnSuccessListener {
-                        emitter.onSuccess(it)
-            }.addOnFailureListener {
-                        emitter.onError(it)
-                    }
+    override suspend fun createFirebaseAccount(account: AccountDTO): AuthResult = suspendCancellableCoroutine { continutation ->
+        auth.createUserWithEmailAndPassword(account.email, account.password).addOnSuccessListener {
+            continutation.resume(it)
+        }.addOnFailureListener {
+            continutation.cancel(it)
         }
     }
 
-    override fun getUid(): String? {
+
+    override suspend fun getUid(): String? {
         return auth.currentUser?.uid
     }
 
-    override fun getCurrentUser(): FirebaseUser? {
+    override suspend fun getCurrentUser(): FirebaseUser? {
         return auth.currentUser
     }
 
-    override fun signIn(account: AccountDTO): Single<AuthResult> {
-        return Single.create { emitter ->
-            auth.signInWithEmailAndPassword(account.email, account.password)
-                    .addOnSuccessListener {
-                        emitter.onSuccess(it)
-                    }
-                    .addOnFailureListener {
-                        emitter.onError(it)
-                    }
+    override suspend fun signIn(account: AccountDTO): AuthResult = suspendCancellableCoroutine { continuation ->
+
+        auth.signInWithEmailAndPassword(account.email, account.password).addOnSuccessListener {
+            continuation.resume(it)
+        }.addOnFailureListener {
+            continuation.cancel(it)
         }
     }
 
-    override fun signOut(account: AccountDTO) {
+    override suspend fun signOut(account: AccountDTO) {
         auth.signOut()
     }
 
-    override fun sendPasswordResetEmail(email: String): Completable {
-        return Completable.create { emitter ->
-            auth.sendPasswordResetEmail(email)
-                    .addOnSuccessListener { emitter.onComplete() }
-                    .addOnFailureListener { emitter.onError(it) }
+    override suspend fun sendPasswordResetEmail(email: String) = suspendCancellableCoroutine<Unit> { continuation ->
+        auth.sendPasswordResetEmail(email).addOnSuccessListener {
+            continuation.resume(Unit)
+        }.addOnFailureListener {
+            continuation.cancel(it)
         }
     }
 
-    override fun sendEmailVerification(user: FirebaseUser): Completable {
-        return Completable.create { emitter ->
-            user.sendEmailVerification()
-                    .addOnSuccessListener { emitter.onComplete() }
-                    .addOnFailureListener { emitter.onError(it) }
+    override suspend fun sendEmailVerification(user: FirebaseUser) = suspendCancellableCoroutine<Unit> { continuation ->
+        user.sendEmailVerification().addOnSuccessListener {
+            continuation.resume(Unit)
+        }.addOnFailureListener {
+            continuation.cancel(it)
         }
     }
 }

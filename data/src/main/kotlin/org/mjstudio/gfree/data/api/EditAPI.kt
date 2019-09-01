@@ -1,6 +1,5 @@
 package org.mjstudio.gfree.data.api
 
-import io.reactivex.Single
 import org.mjstudio.gfree.domain.dto.EditDTO
 import org.mjstudio.gfree.domain.dto.UserInfoDTO
 import retrofit2.http.Body
@@ -13,29 +12,29 @@ import retrofit2.http.Query
 interface EditAPI {
 
     @POST("edit/")
-    fun createEditRequest(@Body body : EditDTO) : Single<EditDTO>
+    suspend fun createEditRequest(@Body body : EditDTO) : EditDTO
 
     @GET("edit/")
-    fun getEditList(
+    suspend fun getEditList(
         @Query("year") year: Int,
         @Query("semester") semester: Int
-    ): Single<List<EditDTO>>
+    ): List<EditDTO>
 
     @GET("edit/")
-    fun getEditListWithCode(
+    suspend fun getEditListWithCode(
             @Query("code") code : String,
             @Query("year") year : Int,
             @Query("semester") semester : Int
-    ): Single<List<EditDTO>>
+    ): List<EditDTO>
 
     @GET("edit/{id}/users")
-    fun getHeartUsersInEdit(@Path("id")id : Int) : Single<List<UserInfoDTO>>
+    suspend fun getHeartUsersInEdit(@Path("id")id : Int) : List<UserInfoDTO>
 
     @PUT("edit/{id}")
-    fun updateStar(
+    suspend fun updateStar(
             @Path("id") id : Int,
             @Query("add") add : Int,
             @Query("uid") uid : String
-    ) : Single<EditDTO>
+    ) : EditDTO
 
 }

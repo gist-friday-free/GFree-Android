@@ -1,15 +1,12 @@
 package org.mjstudio.gfree.data.repository
 
-import io.reactivex.Completable
-import io.reactivex.Single
 import org.mjstudio.gfree.data.api.ClassAPI
-import org.mjstudio.gfree.domain.adapter.ClassDataAdapter
-import org.mjstudio.gfree.domain.common.addSchedulers
-import org.mjstudio.gfree.domain.dto.ClassDataDTO
-import org.mjstudio.gfree.domain.dto.EditDTO
+import org.mjstudio.gfree.domain.adapter.toDTO
+import org.mjstudio.gfree.domain.adapter.toEntity
 import org.mjstudio.gfree.domain.dto.ReviewDTO
-import org.mjstudio.gfree.domain.dto.UserInfoDTO
 import org.mjstudio.gfree.domain.entity.ClassData
+import org.mjstudio.gfree.domain.entity.Edit
+import org.mjstudio.gfree.domain.entity.UserInfo
 import org.mjstudio.gfree.domain.repository.ClassDataRepository
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -19,60 +16,44 @@ class ClassDataRepositoryImpl @Inject constructor(private val classAPI: ClassAPI
 
 
 
-    override fun getClassDataList(year: Int, semester: Int): Single<List<ClassDataDTO>> {
-        return classAPI.getClassDataList(year, semester)
+    override suspend fun getClassDataList(year: Int, semester: Int): List<ClassData> {
+        return classAPI.getClassDataList(year, semester).toEntity().toList()
     }
 
-    override fun getClassData(id: Int): Single<ClassDataDTO> {
-        return classAPI.getClassData(id)
+    override suspend fun getClassData(id: Int): ClassData {
+        return classAPI.getClassData(id).toEntity()
     }
 
-    override fun addClass(data: ClassData): Completable {
-        return Completable.create { emitter ->
-            classAPI.createClassData(ClassDataAdapter.toStorage(data))
-                    .addSchedulers()
-                    .subscribe({
-                        emitter.onComplete()
-                    }, {
-                        emitter.onError(it)
-                    })
-        }
+    override suspend fun addClass(data: ClassData) : ClassData {
+        return classAPI.createClassData(data.toDTO()).toEntity()
     }
 
-    override fun deleteClass(data: ClassData): Completable {
-        return Completable.create { emitter ->
-            classAPI.deleteClassData(data.id)
-                    .addSchedulers()
-                    .subscribe({
-                        emitter.onComplete()
-                    }, {
-                        emitter.onError(it)
-                    })
-        }
+    override suspend fun deleteClass(data: ClassData) : ClassData {
+        return classAPI.deleteClassData(data.id).toEntity()
     }
 
 
-    override fun getRegisteredClassDataList(year: Int, semester: Int): Single<List<ClassDataDTO>> {
-        return classAPI.getClassDataList(year, semester)
+    override suspend fun getRegisteredClassDataList(year: Int, semester: Int): List<ClassData> {
+        return classAPI.getClassDataList(year, semester).toEntity().toList()
     }
 
-    override fun getParticipantCount(year: Int, semester: Int): Single<Int> {
-        TODO("not implemented") // To change body of created functions use File | Settings | File Templates.
+    override suspend fun getParticipantCount(year: Int, semester: Int): Int {
+        TODO("not implemented") // To change body of created suspend functions use File | Settings | File Templates.
     }
 
-    override fun getUsersInClass(id: Int): Single<List<UserInfoDTO>> {
-        return classAPI.getUsersInClass(id)
+    override suspend fun getUsersInClass(id: Int): List<UserInfo> {
+        return classAPI.getUsersInClass(id).toEntity().toList()
     }
 
-    override fun getReviewsInClass(id: Int): Single<List<ReviewDTO>> {
+    override suspend fun getReviewsInClass(id: Int): List<ReviewDTO>{
         return classAPI.getReviewsInClass(id)
     }
 
-    override fun getEditsInClass(id: Int): Single<List<EditDTO>> {
-        return classAPI.getEditsInClass(id)
+    override suspend fun getEditsInClass(id: Int): List<Edit> {
+        return classAPI.getEditsInClass(id).toEntity().toList()
     }
 
-    override fun getClassDataWithCode(code: String, year: Int, semester: Int): Single<ClassDataDTO> {
-        return classAPI.getClassDataWithCode(code,year,semester)
+    override suspend fun getClassDataWithCode(code: String, year: Int, semester: Int): ClassData {
+        return classAPI.getClassDataWithCode(code,year,semester).toEntity()
     }
 }

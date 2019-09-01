@@ -20,9 +20,9 @@ interface UserRepository {
     suspend fun registerClass(uid: String, classData: ClassData): ClassData
     suspend fun unregisterClass(uid: String, classData: ClassData): ClassData
 
-//cache
-    suspend fun getRegisteredClassDataLiveData() : LiveData<List<ClassData>>
-    suspend fun addRegisteredClassDataToCache(classData : ClassData)
-    suspend fun removeRegisteredClasDataFromCache(classData : ClassData)
+    //cache
+    fun getRegisteredClassDataLiveData(): LiveData<List<ClassData>>
+    fun addRegisteredClassDataToCache(classData: ClassData)
+    fun removeRegisteredClasDataFromCache(classData: ClassData)
 
 }

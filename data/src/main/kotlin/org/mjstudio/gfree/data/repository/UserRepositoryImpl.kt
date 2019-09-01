@@ -2,12 +2,9 @@ package org.mjstudio.gfree.data.repository
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import io.reactivex.Single
-import io.reactivex.rxkotlin.toSingle
 import org.mjstudio.gfree.data.api.UserAPI
 import org.mjstudio.gfree.domain.adapter.toDTO
 import org.mjstudio.gfree.domain.adapter.toEntity
-import org.mjstudio.gfree.domain.common.addSchedulers
 import org.mjstudio.gfree.domain.dto.ClassDataDTO
 import org.mjstudio.gfree.domain.dto.UserInfoDTO
 import org.mjstudio.gfree.domain.entity.ClassData
@@ -46,148 +43,62 @@ class UserRepositoryImpl @Inject constructor(private val userAPI: UserAPI) : Use
 
     //endregion
 
-    override fun createAccount(info: UserInfoDTO): Single<UserInfoDTO> {
-        return Single.create { emitter ->
-            userAPI.createUser(info)
-                    .addSchedulers()
-                    .subscribe({
-                        emitter.onSuccess(it)
-                    }, {
-                        emitter.onError(it)
-                    })
-        }
+    override suspend fun createAccount(info: UserInfoDTO): UserInfoDTO {
+        return userAPI.createUser(info)
     }
 
-    override fun changeStudentId(uid: String, id: Int): Single<Int> {
-        return Single.create { emitter ->
-            getUserInfo(uid)
-                    .addSchedulers()
-                    .subscribe({ userInfo ->
-                        userAPI.updateUser(uid, userInfo.copy(studentId = id))
-                                .addSchedulers()
-                                .subscribe({
-                                    emitter.onSuccess(id)
-                                }, {
-                                    emitter.onError(it)
-                                })
-                    }, {
-
-                        emitter.onError(it)
-                    })
-        }
+    override suspend fun changeStudentId(uid: String, id: Int): Int {
+        val info = getUserInfo(uid)
+        userAPI.updateUser(uid,info.copy(studentId = id))
+        return id
     }
 
-    override fun changeMajor(uid: String, majorCode: String): Single<String> {
-        return Single.create { emitter ->
-            getUserInfo(uid)
-                    .addSchedulers()
-                    .subscribe({ userInfo ->
-                        userAPI.updateUser(uid, userInfo.copy(majorCode = majorCode))
-                                .addSchedulers()
-                                .subscribe({
-                                    emitter.onSuccess(majorCode)
-                                }, {
-                                    emitter.onError(it)
-                                })
-                    }, {
-
-                        emitter.onError(it)
-                    })
-        }
+    override suspend fun changeMajor(uid: String, majorCode: String): String {
+        val info = getUserInfo(uid)
+        userAPI.updateUser(uid,info.copy(majorCode = majorCode))
+        return majorCode
     }
 
-    override fun changeAge(uid: String, age: Int): Single<Int> {
-        return Single.create { emitter ->
-            getUserInfo(uid)
-                    .addSchedulers()
-                    .subscribe({ userInfo ->
-                        userAPI.updateUser(uid, userInfo.copy(age = age))
-                                .addSchedulers()
-                                .subscribe({
-                                    emitter.onSuccess(age)
-                                }, {
-                                    emitter.onError(it)
-                                })
-                    }, {
-
-                        emitter.onError(it)
-                    })
-        }
+    override suspend fun changeAge(uid: String, age: Int): Int {
+        val info = getUserInfo(uid)
+        userAPI.updateUser(uid,info.copy(age=age))
+        return age
     }
 
-    override fun changeSex(uid: String, sex: Int): Single<Int> {
-        return Single.create { emitter ->
-            getUserInfo(uid)
-                    .addSchedulers()
-                    .subscribe({ userInfo ->
-                        userAPI.updateUser(uid, userInfo.copy(sex = sex))
-                                .addSchedulers()
-                                .subscribe({
-                                    emitter.onSuccess(sex)
-                                }, {
-                                    emitter.onError(it)
-                                })
-                    }, {
-
-                        emitter.onError(it)
-                    })
-        }
+    override suspend fun changeSex(uid: String, sex: Int): Int {
+        val info = getUserInfo(uid)
+        userAPI.updateUser(uid,info.copy(sex = sex))
+        return sex
     }
 
-    override fun getUserInfo(uid: String): Single<UserInfoDTO> {
+    override suspend fun getUserInfo(uid: String): UserInfoDTO {
         return userAPI.getUser(uid)
     }
 
-    override fun getClassesWithUid(uid: String, year: Int, semester: Int): Single<List<ClassDataDTO>> {
-        if(registeredClassesCache.value != null && isRegisteredClassesCacheLoaded)
-            return registeredClassesCache.value!!.toDTO().toList().toSingle()
+    override suspend fun getClassesWithUid(uid: String, year: Int, semester: Int): List<ClassDataDTO> {
+
+
+        return if(registeredClassesCache.value != null && isRegisteredClassesCacheLoaded)
+            registeredClassesCache.value!!.toDTO().toList()
         else {
-            return userAPI.getClassesListWithUid(uid, year, semester)
-                    .doOnSuccess {
-                        isRegisteredClassesCacheLoaded = true
-
-                        synchronized(registeredClassesCache) {
-                            registeredClassesCache.postValue(it.toEntity().toList())
-                        }
-                    }
+            val list = userAPI.getClassesListWithUid(uid,year,semester)
+            isRegisteredClassesCacheLoaded = true
+            synchronized(registeredClassesCache) {
+                registeredClassesCache.value = list.toEntity().toList()
+            }
+            list
         }
     }
 
-    override fun registerClass(uid: String, classData: ClassData): Single<ClassData> {
-        return Single.create { emitter ->
-            getUserInfo(uid)
-                    .addSchedulers()
-                    .subscribe({ userInfo ->
-                        userAPI.updateUser(uid, userInfo, classData.id, "false")
-                                .addSchedulers()
-                                .subscribe({
-                                    emitter.onSuccess(classData)
-                                }, {
-                                    emitter.onError(it)
-                                })
-                    }, {
-
-                        emitter.onError(it)
-                    })
-        }
+    override suspend fun registerClass(uid: String, classData: ClassData): ClassData {
+        val info = getUserInfo(uid)
+        userAPI.updateUser(uid,info,classData.id,"false")
+        return classData
     }
 
-    override fun unregisterClass(uid: String, classData: ClassData): Single<ClassData> {
-        return Single.create { emitter ->
-            getUserInfo(uid)
-                    .addSchedulers()
-                    .subscribe({ userInfo ->
-                        userAPI.updateUser(uid, userInfo, classData.id, "true")
-                                .addSchedulers()
-                                .subscribe({
-                                    emitter.onSuccess(classData)
-                                }, {
-                                    emitter.onError(it)
-                                })
-                    }, {
-
-                        emitter.onError(it)
-                    })
-        }
+    override suspend fun unregisterClass(uid: String, classData: ClassData): ClassData {
+        val info = getUserInfo(uid)
+        userAPI.updateUser(uid,info,classData.id,"true")
+        return classData
     }
 }

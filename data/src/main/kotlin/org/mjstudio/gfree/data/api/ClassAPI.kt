@@ -1,6 +1,5 @@
 package org.mjstudio.gfree.data.api
 
-import io.reactivex.Single
 import org.mjstudio.gfree.domain.dto.ClassDataDTO
 import org.mjstudio.gfree.domain.dto.EditDTO
 import org.mjstudio.gfree.domain.dto.ReviewDTO
@@ -16,37 +15,37 @@ import retrofit2.http.Query
 interface ClassAPI {
 
     @POST("class/")
-    fun createClassData(@Body body: ClassDataDTO): Single<ClassDataDTO>
+    suspend fun createClassData(@Body body: ClassDataDTO): ClassDataDTO
 
     @GET("class/")
-    fun getClassDataWithCode(
+    suspend fun getClassDataWithCode(
             @Query("code") code : String,
             @Query("year") year : Int,
             @Query("semester") semester : Int
-    ): Single<ClassDataDTO>
+    ): ClassDataDTO
 
     @GET("class/")
-    fun getClassDataList(
+    suspend fun getClassDataList(
         @Query("year") year: Int,
         @Query("semester") semester: Int
-    ): Single<List<ClassDataDTO>>
+    ): List<ClassDataDTO>
 
     @GET("class/{id}/users")
-    fun getUsersInClass(@Path("id") id: Int): Single<List<UserInfoDTO>>
+    suspend fun getUsersInClass(@Path("id") id: Int): List<UserInfoDTO>
     @GET("class/{id}/reviews")
-    fun getReviewsInClass(@Path("id") id: Int): Single<List<ReviewDTO>>
+    suspend fun getReviewsInClass(@Path("id") id: Int): List<ReviewDTO>
 
     @GET("class/{id}/edits")
-    fun getEditsInClass(@Path("id") id: Int): Single<List<EditDTO>>
+    suspend fun getEditsInClass(@Path("id") id: Int): List<EditDTO>
 
     @GET("class/{id}")
-    fun getClassData(@Path("id") id: Int): Single<ClassDataDTO>
+    suspend fun getClassData(@Path("id") id: Int): ClassDataDTO
 
     @PUT("class/{id}")
-    fun updateClassData(@Path("id") id: Int): Single<ClassDataDTO>
+    suspend fun updateClassData(@Path("id") id: Int): ClassDataDTO
 
     @DELETE("class/{id}")
-    fun deleteClassData(@Path("id") id: Int): Single<ClassDataDTO>
+    suspend fun deleteClassData(@Path("id") id: Int): ClassDataDTO
 
 
 }
