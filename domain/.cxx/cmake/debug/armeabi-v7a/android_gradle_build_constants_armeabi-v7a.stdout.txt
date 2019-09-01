@@ -1,0 +1,2 @@
+[1/2] Building CXX object CMakeFiles/constants.dir/constants.cpp.o
+[2/2] Linking CXX shared library /Users/mj/Desktop/GFree/Android/domain/build/intermediates/cmake/debug/obj/armeabi-v7a/libconstants.so
