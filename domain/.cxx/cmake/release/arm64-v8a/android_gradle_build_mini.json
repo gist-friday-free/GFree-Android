@@ -1,0 +1,16 @@
+{
+  "buildFiles": [
+    "/Users/mj/Desktop/GFree/Android/domain/src/main/jni/CMakeLists.txt"
+  ],
+  "cleanCommands": [
+    "/Users/mj/Library/Android/sdk/cmake/3.6.4111459/bin/cmake --build /Users/mj/Desktop/GFree/Android/domain/.cxx/cmake/release/arm64-v8a --target clean"
+  ],
+  "libraries": {
+    "constants-Release-arm64-v8a": {
+      "artifactName": "constants",
+      "buildCommand": "/Users/mj/Library/Android/sdk/cmake/3.6.4111459/bin/cmake --build /Users/mj/Desktop/GFree/Android/domain/.cxx/cmake/release/arm64-v8a --target constants",
+      "abi": "arm64-v8a",
+      "output": "/Users/mj/Desktop/GFree/Android/domain/build/intermediates/cmake/release/obj/arm64-v8a/libconstants.so"
+    }
+  }
+}

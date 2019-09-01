@@ -1,0 +1,3 @@
+/Users/mj/Desktop/GFree/Android/domain/.cxx/cmake/release/x86/CMakeFiles/edit_cache.dir
+/Users/mj/Desktop/GFree/Android/domain/.cxx/cmake/release/x86/CMakeFiles/rebuild_cache.dir
+/Users/mj/Desktop/GFree/Android/domain/.cxx/cmake/release/x86/CMakeFiles/constants.dir

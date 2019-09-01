@@ -10,14 +10,8 @@ class FirebaseMessageService : FirebaseMessagingService() {
         private val TAG = FirebaseMessageService::class.java.simpleName
     }
 
-    override fun onNewToken(p0: String?) {
-        super.onNewToken(p0)
-
-        Log.e(TAG, "onNewToken : $p0")
-    }
-
-    override fun onMessageReceived(remoteMessage: RemoteMessage?) {
-        Log.e(TAG, "From: " + remoteMessage!!.from)
+    override fun onMessageReceived(remoteMessage: RemoteMessage) {
+        Log.e(TAG, "From: " + remoteMessage.from)
 
         // Check if message contains a data payload.
         if (remoteMessage.data.isNotEmpty()) {

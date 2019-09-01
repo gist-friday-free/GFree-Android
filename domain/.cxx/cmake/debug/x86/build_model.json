@@ -1,0 +1,70 @@
+{
+  "variant": {
+    "module": {
+      "rootBuildGradleFolder": "/Users/mj/Desktop/GFree/Android",
+      "sdkFolder": "/Users/mj/Library/Android/sdk",
+      "isNativeCompilerSettingsCacheEnabled": false,
+      "isBuildOnlyTargetAbiEnabled": true,
+      "splitsAbiFilterSet": [],
+      "intermediatesFolder": "/Users/mj/Desktop/GFree/Android/domain/build/intermediates",
+      "gradleModulePathName": ":domain",
+      "moduleRootFolder": "/Users/mj/Desktop/GFree/Android/domain",
+      "makeFile": "/Users/mj/Desktop/GFree/Android/domain/src/main/jni/CMakeLists.txt",
+      "buildSystem": "CMAKE",
+      "compilerSettingsCacheFolder": "/Users/mj/Desktop/GFree/Android/.cxx",
+      "cxxFolder": "/Users/mj/Desktop/GFree/Android/domain/.cxx",
+      "ndkFolder": "/Users/mj/Library/Android/sdk/ndk-bundle",
+      "ndkVersion": "20.0.5594570",
+      "ndkSupportedAbiList": [
+        "ARMEABI_V7A",
+        "ARM64_V8A",
+        "X86",
+        "X86_64"
+      ],
+      "ndkDefaultAbiList": [
+        "ARMEABI_V7A",
+        "ARM64_V8A",
+        "X86",
+        "X86_64"
+      ],
+      "cmakeToolchainFile": "."
+    },
+    "buildSystemArgumentList": [],
+    "cFlagList": [],
+    "cppFlagsList": [],
+    "variantName": "debug",
+    "soFolder": "/Users/mj/Desktop/GFree/Android/domain/build/intermediates/cmake/debug/lib",
+    "objFolder": "/Users/mj/Desktop/GFree/Android/domain/build/intermediates/cmake/debug/obj",
+    "jsonFolder": "/Users/mj/Desktop/GFree/Android/domain/.cxx/cmake/debug",
+    "gradleBuildOutputFolder": "/Users/mj/Desktop/GFree/Android/domain/.cxx/cxx/debug",
+    "isDebuggableEnabled": true,
+    "validAbiList": [
+      "ARMEABI_V7A",
+      "ARM64_V8A",
+      "X86",
+      "X86_64"
+    ],
+    "buildTargetSet": []
+  },
+  "abi": "X86",
+  "abiPlatformVersion": 21,
+  "cxxBuildFolder": "/Users/mj/Desktop/GFree/Android/domain/.cxx/cmake/debug/x86",
+  "jsonFile": "/Users/mj/Desktop/GFree/Android/domain/.cxx/cmake/debug/x86/android_gradle_build.json",
+  "gradleBuildOutputFolder": "/Users/mj/Desktop/GFree/Android/domain/.cxx/cxx/debug/x86",
+  "objFolder": "/Users/mj/Desktop/GFree/Android/domain/build/intermediates/cmake/debug/obj/x86",
+  "buildCommandFile": "/Users/mj/Desktop/GFree/Android/domain/.cxx/cmake/debug/x86/build_command.txt",
+  "buildOutputFile": "/Users/mj/Desktop/GFree/Android/domain/.cxx/cmake/debug/x86/build_output.txt",
+  "modelOutputFile": "/Users/mj/Desktop/GFree/Android/domain/.cxx/cmake/debug/x86/build_model.json",
+  "cmake": {
+    "cmakeListsWrapperFile": "/Users/mj/Desktop/GFree/Android/domain/.cxx/cxx/debug/x86/CMakeLists.txt",
+    "toolchainWrapperFile": "/Users/mj/Desktop/GFree/Android/domain/.cxx/cxx/debug/x86/android_gradle_build.toolchain.cmake",
+    "buildGenerationStateFile": "/Users/mj/Desktop/GFree/Android/domain/.cxx/cxx/debug/x86/build_generation_state.json",
+    "cacheKeyFile": "/Users/mj/Desktop/GFree/Android/domain/.cxx/cxx/debug/x86/compiler_cache_key.json",
+    "compilerCacheUseFile": "/Users/mj/Desktop/GFree/Android/domain/.cxx/cxx/debug/x86/compiler_cache_use.json",
+    "compilerCacheWriteFile": "/Users/mj/Desktop/GFree/Android/domain/.cxx/cxx/debug/x86/compiler_cache_write.json",
+    "toolchainSettingsFromCacheFile": "/Users/mj/Desktop/GFree/Android/domain/.cxx/cxx/debug/x86/compiler_settings_cache.cmake",
+    "cmakeWrappingBaseFolder": "."
+  },
+  "jsonGenerationLoggingRecordFile": "/Users/mj/Desktop/GFree/Android/domain/.cxx/cmake/debug/x86/json_generation_record.json",
+  "compileCommandsJsonFile": "/Users/mj/Desktop/GFree/Android/domain/.cxx/cmake/debug/x86/compile_commands.json"
+}

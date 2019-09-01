@@ -62,8 +62,7 @@ enum class AuthState(val state: String, val positive: PositiveMsg, val negative:
 
 typealias AccountValidationResult = Pair<Boolean, Msg>
 
-class AuthViewModel @Inject constructor(private val authRepository: FirebaseAuthRepository, private val userRepository: UserRepository, private val serverRepository: ServerRepository
-) : ViewModel(), LifecycleObserver {
+class AuthViewModel @Inject constructor(private val authRepository: FirebaseAuthRepository, private val userRepository: UserRepository, private val serverRepository: ServerRepository) : ViewModel(), LifecycleObserver {
 
     private val TAG = AuthViewModel::class.java.simpleName
     val isLoading: MutableLiveData<Boolean> = MutableLiveData(true)
@@ -82,20 +81,14 @@ class AuthViewModel @Inject constructor(private val authRepository: FirebaseAuth
     val signUpPasswordText: MutableLiveData<String> = MutableLiveData("")
     val signUpPasswordCheckText: MutableLiveData<String> = MutableLiveData("")
 
-    val textServerConnection = MutableLiveData(
-            AuthState.SERVER.getNormalStateMessage()
-    )
+    val textServerConnection = MutableLiveData(AuthState.SERVER.getNormalStateMessage())
     val textServerConnectionColor = MutableLiveData(R.color.textInActivate)
-    val textAuthentication = MutableLiveData(
-            AuthState.FIREBASE.getNormalStateMessage()
-    )
+    val textAuthentication = MutableLiveData(AuthState.FIREBASE.getNormalStateMessage())
     val textAuthenticationColor = MutableLiveData(R.color.textInActivate)
-    val textVerification = MutableLiveData(
-            AuthState.VERIFICATION.getNormalStateMessage()
-    )
+    val textVerification = MutableLiveData(AuthState.VERIFICATION.getNormalStateMessage())
     val textVerificationColor = MutableLiveData(R.color.textInActivate)
 
-//    val text
+    //    val text
     //endregion
 
     //region Event
@@ -128,12 +121,10 @@ class AuthViewModel @Inject constructor(private val authRepository: FirebaseAuth
 
 
     }
+
     @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
     fun checkAPIServerIsConnected() {
-        compositeDisposable += serverRepository.isServerRunning()
-                .timeout(2, SECONDS)
-                .addSchedulers()
-                .subscribe({
+        compositeDisposable += serverRepository.isServerRunning().timeout(2, SECONDS).addSchedulers().subscribe({
                     changeAuthState(SERVER, true)
                 }, {
                     changeAuthState(SERVER, false, it)
@@ -159,7 +150,7 @@ class AuthViewModel @Inject constructor(private val authRepository: FirebaseAuth
                     textAuthentication post AuthState.FIREBASE.getNegativeStateMessage()
                     textAuthenticationColor post R.color.authRed
 
-                    changeAuthState(AuthState.VERIFICATION,false)
+                    changeAuthState(AuthState.VERIFICATION, false)
                 }
             }
             VERIFICATION -> {
@@ -208,12 +199,12 @@ class AuthViewModel @Inject constructor(private val authRepository: FirebaseAuth
             snackMsg post Once(validationResult.second to null)
         } else {
             compositeDisposable += authRepository.signIn(account).addSchedulers().subscribe({ result ->
-                        // SIGN IN SUCCESS
-                        firebaseSignInComplete(result.user)
-                    }, { throwable ->
-                        // SIGN IN FAIL
-                        signInFail(throwable)
-                    })
+                // SIGN IN SUCCESS
+                firebaseSignInComplete(result.user!!)
+            }, { throwable ->
+                // SIGN IN FAIL
+                signInFail(throwable)
+            })
         }
     }
 
@@ -231,6 +222,7 @@ class AuthViewModel @Inject constructor(private val authRepository: FirebaseAuth
 
         return true to PositiveMsg.SUCCESS
     }
+
     /**
      * 로그인에 실패
      */
@@ -254,50 +246,44 @@ class AuthViewModel @Inject constructor(private val authRepository: FirebaseAuth
      * @param firebaseUser uid를 이용해서 서버에 유저 정보가 존재하는 지 확인하는 데 쓰이는 인자
      */
     private fun checkOrCreateUserInServer(firebaseUser: FirebaseUser) {
-            val uid = firebaseUser.uid
-            val email = firebaseUser.email
+        val uid = firebaseUser.uid
+        val email = firebaseUser.email
 
-        compositeDisposable += userRepository.getUserInfo(uid)
-                    .addSchedulers()
-                    .doAfterTerminate {
-                        isLoading post false
-                    }.subscribe({ user ->
-                    // user is exist in server
-                        navigateMainFragment post Once(user)
-                    }, {
+        compositeDisposable += userRepository.getUserInfo(uid).addSchedulers().doAfterTerminate {
                     isLoading post false
-                        debugE("무슨 에러가 날까요 ${it}${it.message}")
+                }.subscribe({ user ->
+                    // user is exist in server
+                    navigateMainFragment post Once(user)
+                }, {
+                    isLoading post false
+                    debugE("무슨 에러가 날까요 ${it}${it.message}")
                     // 1. network connection is not good
                     // 2. user are not exist in server or else
 
                     when (it) {
-                            is java.net.ConnectException -> {
-                                snackMsg post Once(NegativeMsg.SERVER_ACCOUNT_CREATE_FAIL to null)
-                            }
+                        is java.net.ConnectException -> {
+                            snackMsg post Once(NegativeMsg.SERVER_ACCOUNT_CREATE_FAIL to null)
+                        }
                         is HttpException -> {
                             // 아이디가 없다
 
-                            userRepository.createAccount(UserInfoDTO(uid, email ?: "", Constant.DEFAULT_MAJOR,
-                                    Constant.DEFAULT_STUDENT_ID, Constant.DEFAULT_SEX, Constant.DEFAULT_AGE))
-                                        .addSchedulers()
-                                        .doAfterTerminate {
-                                            isLoading post false
-                                        }
-                                        .subscribe({
-                                            // 서버에 아이디 생성 성공
-                                            navigateMainFragment post Once(it)
-                                        }, {
-                                            // 에러
-                                            debugE(it)
-                                            snackMsg post Once(NegativeMsg
-                                                    .SERVER_ACCOUNT_CREATE_FAIL to null)
-                                        })
-                            }
-                        else -> {
-                                msg post Once(NegativeMsg.FAIL)
-                            }
+                            userRepository.createAccount(UserInfoDTO(uid, email
+                                    ?: "", Constant.DEFAULT_MAJOR, Constant.DEFAULT_STUDENT_ID, Constant.DEFAULT_SEX, Constant.DEFAULT_AGE)).addSchedulers().doAfterTerminate {
+                                        isLoading post false
+                                    }.subscribe({
+                                        // 서버에 아이디 생성 성공
+                                        navigateMainFragment post Once(it)
+                                    }, {
+                                        // 에러
+                                        debugE(it)
+                                        snackMsg post Once(NegativeMsg.SERVER_ACCOUNT_CREATE_FAIL to null)
+                                    })
                         }
-                    })
+                        else -> {
+                            msg post Once(NegativeMsg.FAIL)
+                        }
+                    }
+                })
     }
 
     /**
@@ -315,17 +301,15 @@ class AuthViewModel @Inject constructor(private val authRepository: FirebaseAuth
         }
         // 가입이 가능한 경우
         else {
-            compositeDisposable += authRepository
-                    .createFirebaseAccount(account)
-                    .addSchedulers()
-                    .subscribe({
-                        signUpServerAccount(it.user)
+            compositeDisposable += authRepository.createFirebaseAccount(account).addSchedulers().subscribe({
+                        signUpServerAccount(it.user!!)
                     }, {
                         isLoading post false
                         msg post Once(FIREBASE_ACCOUNT_CREATE_FAIL)
                     })
         }
     }
+
     /**
      * 서버에 계정을 만드는 메서드 [signUpFirebaseAccount] 가 성공할 시에 호출된다.
      *
@@ -333,12 +317,9 @@ class AuthViewModel @Inject constructor(private val authRepository: FirebaseAuth
      */
     private fun signUpServerAccount(user: FirebaseUser) {
         compositeDisposable += userRepository.createAccount(UserInfoDTO(user.uid, user.email
-                ?: "", Constant.DEFAULT_MAJOR, Constant.DEFAULT_STUDENT_ID, Constant.DEFAULT_SEX, Constant.DEFAULT_AGE)
-        ).addSchedulers()
-                .doAfterTerminate {
-                    isLoading post false
-                }
-                .subscribe({
+                ?: "", Constant.DEFAULT_MAJOR, Constant.DEFAULT_STUDENT_ID, Constant.DEFAULT_SEX, Constant.DEFAULT_AGE)).addSchedulers().doAfterTerminate {
+            isLoading post false
+        }.subscribe({
                     // 서버에 계정 만들기 성공
                     snackMsg post Once(PositiveMsg.ACCOUNT_CREATED to null)
                 }, {
@@ -372,12 +353,9 @@ class AuthViewModel @Inject constructor(private val authRepository: FirebaseAuth
     fun sendVerificationEmail() {
         isLoading post true
         authRepository.getCurrentUser()?.let {
-            compositeDisposable += authRepository.sendEmailVerification(it)
-                    .addSchedulers()
-                    .doOnTerminate {
+            compositeDisposable += authRepository.sendEmailVerification(it).addSchedulers().doOnTerminate {
                         isLoading post false
-                    }
-                    .subscribe({
+                    }.subscribe({
                         msg post Once(PositiveMsg.SEND_VERIFICATION_EMAIL)
                     }, {
                         msg post Once(NegativeMsg.FAIL_SEND_VERIFICATION_EMAIL)
@@ -394,12 +372,9 @@ class AuthViewModel @Inject constructor(private val authRepository: FirebaseAuth
         val email = user.email ?: return
         isLoading post true
 
-        compositeDisposable += authRepository.sendPasswordResetEmail(email)
-                .addSchedulers()
-                .doOnTerminate {
+        compositeDisposable += authRepository.sendPasswordResetEmail(email).addSchedulers().doOnTerminate {
                     isLoading post false
-                }
-                .subscribe({
+                }.subscribe({
                     msg post Once(PositiveMsg.SEND_PASSWORD_REST_EMAIL)
                 }, {
                     msg post Once(NegativeMsg.FAIL_SEND_RESET_PASSWORD_EMAIL)
@@ -409,16 +384,18 @@ class AuthViewModel @Inject constructor(private val authRepository: FirebaseAuth
     fun onClickSignInButton() {
         signIn(AccountDTO(emailText.value ?: "", passwordText.value ?: ""))
     }
+
     fun onClickSignUpButton() {
         showSignUpDialog post Once(AccountDTO(emailText.value ?: "", passwordText.value ?: ""))
     }
+
     fun onClickSignUpCancel() {
         signUpCancel post Once(true)
     }
+
     fun onClickSignUpSubmit() {
         signUpSubmit post Once(true)
-        signUpFirebaseAccount(AccountDTO(signUpEmailText.value ?: "", signUpPasswordText.value ?: ""),
-                signUpPasswordCheckText.value ?: ""
-        )
+        signUpFirebaseAccount(AccountDTO(signUpEmailText.value ?: "", signUpPasswordText.value
+                ?: ""), signUpPasswordCheckText.value ?: "")
     }
 }

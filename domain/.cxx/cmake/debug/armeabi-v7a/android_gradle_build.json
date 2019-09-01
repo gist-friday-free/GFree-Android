@@ -1,0 +1,38 @@
+
+{
+	"buildFiles" : [ "/Users/mj/Desktop/GFree/Android/domain/src/main/jni/CMakeLists.txt" ],
+	"cleanCommands" : 
+	[
+		"/Users/mj/Library/Android/sdk/cmake/3.6.4111459/bin/cmake --build /Users/mj/Desktop/GFree/Android/domain/.cxx/cmake/debug/armeabi-v7a --target clean"
+	],
+	"cppFileExtensions" : [ "cpp" ],
+	"libraries" : 
+	{
+		"constants-Debug-armeabi-v7a" : 
+		{
+			"abi" : "armeabi-v7a",
+			"artifactName" : "constants",
+			"buildCommand" : "/Users/mj/Library/Android/sdk/cmake/3.6.4111459/bin/cmake --build /Users/mj/Desktop/GFree/Android/domain/.cxx/cmake/debug/armeabi-v7a --target constants",
+			"buildType" : "debug",
+			"files" : 
+			[
+				
+				{
+					"flags" : "  --target=armv7-none-linux-androideabi21 --gcc-toolchain=/Users/mj/Library/Android/sdk/ndk-bundle/toolchains/llvm/prebuilt/darwin-x86_64 --sysroot=/Users/mj/Library/Android/sdk/ndk-bundle/toolchains/llvm/prebuilt/darwin-x86_64/sysroot  -Dconstants_EXPORTS  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -fno-addrsig -march=armv7-a -mthumb -Wa,--noexecstack -Wformat -Werror=format-security   -O0 -fno-limit-debug-info  -fPIC    -c ",
+					"src" : "/Users/mj/Desktop/GFree/Android/domain/src/main/jni/constants.cpp",
+					"workingDirectory" : "/Users/mj/Desktop/GFree/Android/domain/.cxx/cmake/debug/armeabi-v7a"
+				}
+			],
+			"output" : "/Users/mj/Desktop/GFree/Android/domain/build/intermediates/cmake/debug/obj/armeabi-v7a/libconstants.so",
+			"toolchain" : "17822999448408238202"
+		}
+	},
+	"toolchains" : 
+	{
+		"17822999448408238202" : 
+		{
+			"cCompilerExecutable" : "/Users/mj/Library/Android/sdk/ndk-bundle/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang",
+			"cppCompilerExecutable" : "/Users/mj/Library/Android/sdk/ndk-bundle/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang++"
+		}
+	}
+}
