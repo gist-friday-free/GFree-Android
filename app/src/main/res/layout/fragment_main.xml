@@ -27,15 +27,16 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:background="@drawable/bottombar_gradient_background"
             app:bottomTabId="@{vm.currentTabId}"
             app:bottomTabChanged="@{vm.tabChangedListener}"
-            app:labelVisibilityMode="labeled"
+            app:labelVisibilityMode="auto"
             app:itemHorizontalTranslationEnabled="false"
-            android:background="@color/colorPrimary"
             app:menu="@menu/fragment_main_navigation"
             android:id="@+id/bottomNav"
             android:layout_width="match_parent"
             android:layout_height="56dp"
+
             app:itemIconTint="@color/bottom_menu_color"
             app:itemTextColor="@color/bottom_menu_color"
 

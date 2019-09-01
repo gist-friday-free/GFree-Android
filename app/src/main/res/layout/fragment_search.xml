@@ -17,13 +17,13 @@
         android:visibility="visible">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:background="@drawable/toolbar_gradient_background"
             android:transitionName="toolbar"
             android:elevation="@dimen/toolbar_elevation"
             android:orientation="vertical"
             android:id="@+id/appbar"
             android:layout_width="match_parent"
             android:layout_height="@dimen/toolbar_height"
-            android:background="@color/colorBlack"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -103,15 +103,19 @@
 
         <com.github.clans.fab.FloatingActionMenu
 
-            android:id="@+id/floating_menu"
-            app:menu_fab_size="mini"
+            app:menu_colorNormal="@color/colorPrimary2"
+            app:menu_colorRipple="@color/colorWhite"
+            app:menu_colorPressed="@color/colorPrimaryDark"
 
-            app:menu_colorNormal="@color/colorBlack"
-            app:menu_colorPressed="@color/colorBlack"
-            app:menu_fab_label="@string/fab_menu_title_hint"
-            app:menu_labels_showShadow="false"
-            app:menu_labels_colorNormal="@color/colorBlack"
+            app:menu_fab_size="mini"
+            app:menu_shadowColor="@color/colorPrimary2"
+
             app:menu_icon="@drawable/fab_add"
+            app:menu_labels_colorNormal="@color/colorBlack"
+            app:menu_labels_showShadow="false"
+
+            android:id="@+id/floating_menu"
+            app:menu_fab_label="@string/fab_menu_title_hint"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"

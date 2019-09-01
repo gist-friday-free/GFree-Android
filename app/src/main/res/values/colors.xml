@@ -1,13 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="colorBlack">#000000</color>
-    <color name="colorWhite">#ffffff</color>
-    <color name="colorPrimary">#ffffff</color>
-    <color name="colorPrimary2">#a24dbc</color>
-    <color name="colorPrimary3">#6d2982</color>
-    <color name="colorAccent">#000000</color>
-    <color name="colorPrimaryDark">#ffffff</color>
+    <color name="colorBlack">#000</color>
+    <color name="colorWhite">#fff</color>
+
+
+    <color name="colorPrimaryDark">#8895B3</color>
+    <color name="colorPrimary">#8E94F2</color>
+    <color name="colorPrimary2">#9FA0FF</color>
+    <color name="colorPrimary3">#BBADFF</color>
+    <color name="colorPrimary4">#DAB6FC</color>
+
+
+    <color name="colorAccent">#b9d9a3</color>
+
+
     <color name="colorBackground">#ffffff</color>
     <color name="colorText">#ff555555</color>
     <color name="colorTextWhite">#ffffffff</color>
@@ -24,5 +31,8 @@
     <color name="authBlue">#455af9</color>
     <color name="authOrange">#f7ca59</color>
     <color name="authRed">#ef4239</color>
+
+
+
 
 </resources>

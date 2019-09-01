@@ -5,6 +5,7 @@
       "sdkFolder": "/Users/mj/Library/Android/sdk",
       "isNativeCompilerSettingsCacheEnabled": false,
       "isBuildOnlyTargetAbiEnabled": true,
+      "ideBuildTargetAbi": "x86",
       "splitsAbiFilterSet": [],
       "intermediatesFolder": "/Users/mj/Desktop/GFree/Android/domain/build/intermediates",
       "gradleModulePathName": ":domain",
@@ -39,10 +40,7 @@
     "gradleBuildOutputFolder": "/Users/mj/Desktop/GFree/Android/domain/.cxx/cxx/debug",
     "isDebuggableEnabled": true,
     "validAbiList": [
-      "ARMEABI_V7A",
-      "ARM64_V8A",
-      "X86",
-      "X86_64"
+      "X86"
     ],
     "buildTargetSet": []
   },

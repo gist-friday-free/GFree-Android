@@ -20,10 +20,10 @@
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:background="@drawable/toolbar_gradient_background"
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="@dimen/toolbar_height"
-            android:background="@color/colorBlack"
             android:elevation="@dimen/toolbar_elevation"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
