@@ -11,4 +11,5 @@ class LeaklessRecyclerView @JvmOverloads constructor(context : Context, attrs : 
 
         this.adapter = null
     }
+
 }

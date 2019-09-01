@@ -46,6 +46,7 @@ class MainFragment : DaggerFragment() {
         mBinding.viewPager.adapter = mPagerAdapter
         mBinding.viewPager.offscreenPageLimit = 4
         mBinding.viewPager.isUserInputEnabled = false
+
     }
 
 
