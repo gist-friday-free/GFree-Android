@@ -1,4 +1,4 @@
-import kotlin.String
+
 import org.gradle.plugin.use.PluginDependenciesSpec
 import org.gradle.plugin.use.PluginDependencySpec
 
@@ -18,7 +18,7 @@ object Versions {
 
   const val androidx_databinding: String = "3.5.0"
 
-  const val androidx_lifecycle: String = "2.1.0-alpha01"
+  const val androidx_lifecycle: String = "2.2.0-alpha03"
 
   const val navigation_fragment_ktx: String = "2.1.0-alpha04"
 

@@ -36,16 +36,19 @@ object Libs {
   const val databinding_runtime: String = "androidx.databinding:databinding-runtime:" +
       Versions.androidx_databinding
 
-  /**
-   * https://developer.android.com/topic/libraries/architecture/index.html
-   */
-  const val lifecycle_compiler: String = "androidx.lifecycle:lifecycle-compiler:" +
+  const val lifecycle_compiler_ktx: String = "androidx.lifecycle:lifecycle-compiler-ktx:" +
+      Versions.androidx_lifecycle
+
+  const val lifecycle_livedata_ktx: String = "androidx.lifecycle:lifecycle-livedata-ktx:" +
+      Versions.androidx_lifecycle
+
+  const val lifecycle_runtime_ktx: String = "androidx.lifecycle:lifecycle-runtime-ktx:" +
       Versions.androidx_lifecycle
 
   /**
-   * https://developer.android.com/topic/libraries/architecture/index.html
+   * http://developer.android.com/tools/extras/support-library.html
    */
-  const val lifecycle_extensions: String = "androidx.lifecycle:lifecycle-extensions:" +
+  const val lifecycle_viewmodel_ktx: String = "androidx.lifecycle:lifecycle-viewmodel-ktx:" +
       Versions.androidx_lifecycle
 
   /**

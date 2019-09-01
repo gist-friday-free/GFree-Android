@@ -5,7 +5,6 @@ import android.view.View
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import org.mjstudio.gfree.domain.common.GeneralMsg
-import org.mjstudio.gfree.domain.common.rxSingleTimer
 import org.mjstudio.ggonggang.R
 import org.mjstudio.ggonggang.R.layout
 import org.mjstudio.ggonggang.common.BaseDaggerFragment
@@ -57,6 +56,9 @@ class AuthFragment : BaseDaggerFragment<FragmentAuthBinding,AuthViewModel>(layou
     }
 
     private fun startMainFragment() {
+
+        
+
         rxSingleTimer(300) {
             findNavController().navigate(R.id.action_authFragment_to_mainFragment)
         }

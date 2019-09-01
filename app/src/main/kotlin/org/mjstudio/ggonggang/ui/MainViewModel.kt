@@ -7,7 +7,9 @@ import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import androidx.viewpager2.widget.ViewPager2
+import kotlinx.coroutines.launch
 import org.mjstudio.gfree.domain.constant.Constant
 import org.mjstudio.gfree.domain.repository.ClassDataRepository
 import org.mjstudio.gfree.domain.repository.FirebaseAuthRepository
@@ -57,10 +59,10 @@ class MainViewModel @Inject constructor(
 
     init {
         // 현재 유저가 등록된 클래스를 가져온다.
-        authRepository.getUid()?.let { uid ->
-            userRepository.getClassesWithUid(uid, Constant.CURRENT_YEAR, Constant.CURRENT_SEMESTER).addSchedulers().subscribe({
-            }, {
-            })
+        viewModelScope.launch {
+            authRepository.getUid()?.let {uid->
+                userRepository.getClassesWithUid(uid,Constant.CURRENT_YEAR,Constant.CURRENT_SEMESTER)
+            }
         }
     }
 }
