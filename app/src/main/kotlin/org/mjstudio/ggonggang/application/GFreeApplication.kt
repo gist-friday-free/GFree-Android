@@ -2,14 +2,13 @@ package org.mjstudio.ggonggang.application
 
 import android.content.res.Resources
 import android.graphics.Point
-import androidx.lifecycle.ProcessLifecycleOwner
 import dagger.android.AndroidInjector
 import dagger.android.DaggerApplication
-import io.reactivex.Single
-import org.mjstudio.gfree.domain.dto.PlayStoreDTO
+import org.mjstudio.gfree.domain.constant.Constant
 import org.mjstudio.gfree.domain.repository.FirebaseAuthRepository
 import org.mjstudio.ggonggang.di.AppComponent
 import org.mjstudio.ggonggang.di.DaggerAppComponent
+import org.mjstudio.ggonggang.util.NotificationHelper
 import org.mjstudio.ggonggang.util.SPService
 import javax.inject.Inject
 
@@ -48,10 +47,18 @@ class GFreeApplication : DaggerApplication() {
         GFreeApplication.instance = this
         appResources = resources
 
-        val appLifeCycleObserver = AppLifeCycleObserver(this)
-        ProcessLifecycleOwner.get().lifecycle.addObserver(appLifeCycleObserver)
+
+        // 앱이 설치되고 처음 실행될 때
+        if (!sp.loadBoolean(Constant.IS_NOT_FIRST_RUN)) {
+            firstRun()
+            org.mjstudio.ggonggang.application.sp.saveBoolean(Constant.IS_NOT_FIRST_RUN, true)
+        }
     }
 
+    private fun firstRun() {
+        // 앱이 설치되고 처음 실행될 때
+        NotificationHelper.createChannels(context = this)
+    }
 }
 
 

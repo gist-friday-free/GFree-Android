@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import dagger.android.support.DaggerFragment
@@ -34,7 +34,7 @@ class TimeTableFragment : DaggerFragment() {
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        mViewModel = ViewModelProviders.of(this, viewModelFactory)[TimeTableViewModel::class.java]
+        mViewModel = ViewModelProvider(this, viewModelFactory)[TimeTableViewModel::class.java]
         this.lifecycle.addObserver(mViewModel)
 
         mBinding = FragmentTimetableBinding.inflate(inflater, container, false)

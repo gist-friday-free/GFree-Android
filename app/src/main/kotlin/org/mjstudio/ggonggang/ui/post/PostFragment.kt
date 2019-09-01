@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
@@ -23,8 +23,6 @@ import org.mjstudio.ggonggang.di.ViewModelFactory
 import org.mjstudio.ggonggang.ui.information.InformationFragmentDirections
 import javax.inject.Inject
 
-
-
 class PostFragment : DaggerFragment() {
     private val TAG = PostFragment::class.java.simpleName
 
@@ -39,7 +37,7 @@ class PostFragment : DaggerFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        mViewModel = ViewModelProviders.of(this,viewModelFactory)[PostViewModel::class.java]
+        mViewModel = ViewModelProvider(this,viewModelFactory)[PostViewModel::class.java]
         debugE(TAG,viewModelFactory)
         debugE(TAG,mViewModel)
     }
@@ -129,7 +127,7 @@ class PostFragment : DaggerFragment() {
                         .show()
             }
 
-            removeSuccess.observeOnce(viewLifecycleOwner) {
+            requestSuccess.observeOnce(viewLifecycleOwner) {
                 findNavController().popBackStack()
             }
 

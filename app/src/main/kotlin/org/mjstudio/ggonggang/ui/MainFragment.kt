@@ -8,7 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import dagger.android.support.DaggerFragment
 import org.mjstudio.ggonggang.common.AutoClearedValue
 import org.mjstudio.ggonggang.databinding.FragmentMainBinding
@@ -23,12 +23,12 @@ class MainFragment : DaggerFragment() {
     lateinit var viewModelFactory: ViewModelFactory
     private lateinit var mViewModel: MainViewModel
 
-    private var mBinding: FragmentMainBinding by AutoClearedValue()
+    private var mBinding: FragmentMainBinding by AutoClearedValue<FragmentMainBinding>()
     private lateinit var mPagerAdapter: MainFragmentPagerAdapter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
-        mViewModel = ViewModelProviders.of(activity!!, viewModelFactory)[MainViewModel::class.java]
+        mViewModel = ViewModelProvider(activity!!, viewModelFactory)[MainViewModel::class.java]
         this.lifecycle.addObserver(mViewModel)
 
         mBinding = FragmentMainBinding.inflate(inflater, container, false)

@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -58,7 +58,7 @@ class InformationFragment : Fragment()  {
         }
 
         AndroidSupportInjection.inject(this)
-        mViewModel = ViewModelProviders.of(this,viewModelFactory)[InformationViewModel::class.java]
+        mViewModel = ViewModelProvider(this,viewModelFactory)[InformationViewModel::class.java]
 
         mBinding = FragmentInformationBinding.inflate(inflater, container, false)
         mBinding.lifecycleOwner = viewLifecycleOwner

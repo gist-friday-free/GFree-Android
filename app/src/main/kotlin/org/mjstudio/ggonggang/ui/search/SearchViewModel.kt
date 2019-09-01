@@ -5,21 +5,20 @@ import androidx.databinding.BindingAdapter
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
 import com.ferfalk.simplesearchview.SimpleOnQueryTextListener
 import com.ferfalk.simplesearchview.SimpleSearchView
 import com.ferfalk.simplesearchview.SimpleSearchViewListener
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.rxkotlin.plusAssign
+import kotlinx.coroutines.launch
 import org.mjstudio.gfree.domain.adapter.toEntity
 import org.mjstudio.gfree.domain.common.CustomMsg
 import org.mjstudio.gfree.domain.common.Msg
 import org.mjstudio.gfree.domain.common.NegativeMsg
 import org.mjstudio.gfree.domain.common.Once
 import org.mjstudio.gfree.domain.common.PositiveMsg
-import org.mjstudio.gfree.domain.common.addSchedulers
 import org.mjstudio.gfree.domain.common.debugE
 import org.mjstudio.gfree.domain.constant.Constant
 import org.mjstudio.gfree.domain.entity.ClassData
@@ -27,7 +26,6 @@ import org.mjstudio.gfree.domain.enumerator.Major
 import org.mjstudio.gfree.domain.repository.ClassDataRepository
 import org.mjstudio.gfree.domain.repository.FirebaseAuthRepository
 import org.mjstudio.gfree.domain.repository.UserRepository
-import org.mjstudio.ggonggang.common.post
 import org.mjstudio.ggonggang.ui.MainNavigationTab
 import org.mjstudio.ggonggang.ui.profile.ProfileAdapter
 import org.mjstudio.ggonggang.ui.MainNavigationTab.TIMETABLE
@@ -49,7 +47,6 @@ class SearchViewModel @Inject constructor(
     val filteredClassData: MutableLiveData<List<ClassData>> = MutableLiveData(listOf())
 
     private val TAG = SearchViewModel::class.java.simpleName
-    private val compositeDisposable = CompositeDisposable()
     //region DATA
     lateinit var settings: SearchFilterSettings
 
@@ -93,39 +90,35 @@ class SearchViewModel @Inject constructor(
         startQuery("")
     }
 
-    override fun onCleared() {
-        super.onCleared()
-        compositeDisposable.clear()
-    }
     private fun getSettingsFromSharedPreferences() {
         settings = SearchFilterSettings()
     }
 
-    private fun startQuery(query: String) {
+    private fun startQuery(query: String) = viewModelScope.launch {
         //데이터가 불러와지지 않았을 경우
         if(allClassData.isEmpty()) {
-            compositeDisposable += classDataRepository.getClassDataList(Constant.CURRENT_YEAR, Constant.CURRENT_SEMESTER)
-                    .addSchedulers()
-                    .doAfterTerminate {
-                        isLoading.value = false
-                    }
-                    .subscribe({
-                        if (it == null)
-                            return@subscribe
 
-                        allClassData = it.toEntity().toList()
-                        setFilteredClassData(query)
-                        startLayoutAnim post Once(true)
-                    }, {
-                        msg.value = Once(NegativeMsg.CLASS_LIST_GET_FAIL)
-                        debugE(TAG, it)
-                    })
+            isLoading.value = true
+            try {
+                val it = classDataRepository.getClassDataList(Constant.CURRENT_YEAR, Constant.CURRENT_SEMESTER)
+
+                allClassData = it
+                setFilteredClassData(query)
+                startLayoutAnim.value = Once(true)
+
+            }catch (t : Throwable) {
+                msg.value = Once(NegativeMsg.CLASS_LIST_GET_FAIL)
+                debugE(TAG, t)
+            }finally {
+                isLoading.value = false
+            }
+
         }
         //이미 네트워크를 통해 불러와서 데이터가 있을 경우
         else {
             setFilteredClassData(query)
             isLoading.value=false
-            startLayoutAnim post Once(true)
+            startLayoutAnim.value =  Once(true)
         }
     }
 
@@ -214,7 +207,7 @@ class SearchViewModel @Inject constructor(
         isMenuExpanded.value = !(isMenuExpanded.value ?: true)
     }
 
-    fun onClickAddButton() {
+    fun onClickAddButton() = viewModelScope.launch {
         clickAddButton.value = Once(currentSelectedClassData.value!!)
 
 
@@ -224,21 +217,25 @@ class SearchViewModel @Inject constructor(
             msg.value = Once(CustomMsg("${NegativeMsg.CLASS_DUPLICATE.msg}\nwith ${checkDuplicateResult.second ?: ""}"))
         }else {
 
-            authRepository.getUid()?.let {uid->
-                compositeDisposable+=userRepository.registerClass(uid,currentSelectedClassData.value!!)
-                        .addSchedulers()
-                        .subscribe({
-                            //추가에 성공한다면
-                            userRepository.addRegisteredClassDataToCache(it)
+            try {
+                authRepository.getUid()?.let { uid ->
+                    val result = userRepository.registerClass(uid, currentSelectedClassData.value!!)
+                    //추가에 성공한다면
+                    userRepository.addRegisteredClassDataToCache(result)
 
-                            isMenuExpanded.value = false
-                            navTabChanged.value = Once(TIMETABLE)
+                    isMenuExpanded.value = false
+                    navTabChanged.value = Once(TIMETABLE)
 
-                            snackMsg.value = Once(PositiveMsg.CLASS_REGISTER_SUCCESS)
-                        }, {
-                            snackMsg.value = Once(NegativeMsg.CLASS_REGISTER_FAIL)
-                        })
+                    snackMsg.value = Once(PositiveMsg.CLASS_REGISTER_SUCCESS)
+                }
+            }catch(e : Throwable) {
+                snackMsg.value = Once(NegativeMsg.CLASS_REGISTER_FAIL)
+            }finally {
+                isLoading.value=false
             }
+
+
+
 
         }
     }

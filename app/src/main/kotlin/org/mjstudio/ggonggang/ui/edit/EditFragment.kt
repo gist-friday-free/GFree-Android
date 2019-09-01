@@ -2,7 +2,7 @@ package org.mjstudio.ggonggang.ui.edit
 
 import android.os.Bundle
 import android.view.View
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import org.mjstudio.ggonggang.R
@@ -25,7 +25,7 @@ class EditFragment : BaseDaggerFragment<FragmentEditBinding,EditViewModel>(layou
     override lateinit var mViewModel: EditViewModel
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        mViewModel = ViewModelProviders.of(this,viewModelFactory).get(EditViewModel::class.java)
+        mViewModel = ViewModelProvider(this,viewModelFactory).get(EditViewModel::class.java)
         super.onViewCreated(view, savedInstanceState)
 
         initRecyclerView()

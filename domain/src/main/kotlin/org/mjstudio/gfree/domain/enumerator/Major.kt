@@ -63,8 +63,8 @@ enum class Major(val code: String, val isCommon: Boolean) {
 
         fun getAllCommonMajor(): List<Major> = getAllMajor().filter { it.isCommon }
 
-        fun getMajorWithCode(code: String): Major? {
-            return getAllMajor().firstOrNull { it.code == code.take(2).toUpperCase() }
+        fun getMajorWithCode(code: String): Major {
+            return getAllMajor().firstOrNull { it.code == code.take(2).toUpperCase() } ?: NONE
         }
 
         fun getColorFromMajorAndIndex(context : Context,major: Major, index: Int): Int {

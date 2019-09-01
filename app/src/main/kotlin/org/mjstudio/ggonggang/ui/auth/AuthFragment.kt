@@ -2,9 +2,11 @@ package org.mjstudio.ggonggang.ui.auth
 
 import android.os.Bundle
 import android.view.View
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import org.mjstudio.gfree.domain.common.GeneralMsg
+import org.mjstudio.gfree.domain.common.simpleTimer
 import org.mjstudio.ggonggang.R
 import org.mjstudio.ggonggang.R.layout
 import org.mjstudio.ggonggang.common.BaseDaggerFragment
@@ -31,7 +33,7 @@ class AuthFragment : BaseDaggerFragment<FragmentAuthBinding,AuthViewModel>(layou
     override lateinit var mViewModel: AuthViewModel
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        mViewModel = ViewModelProviders.of(activity!!,viewModelFactory).get(AuthViewModel::class.java)
+        mViewModel = ViewModelProvider(activity!!, viewModelFactory).get(AuthViewModel::class.java)
         super.onViewCreated(view, savedInstanceState)
 
         this.lifecycle.addObserver(mViewModel)
@@ -57,9 +59,7 @@ class AuthFragment : BaseDaggerFragment<FragmentAuthBinding,AuthViewModel>(layou
 
     private fun startMainFragment() {
 
-        
-
-        rxSingleTimer(300) {
+        lifecycleScope.simpleTimer(300) {
             findNavController().navigate(R.id.action_authFragment_to_mainFragment)
         }
     }
@@ -69,23 +69,24 @@ class AuthFragment : BaseDaggerFragment<FragmentAuthBinding,AuthViewModel>(layou
         if (action == null) {
             mBinding.root.showSnackbar(msg)
         } else {
-            mBinding.root.showSnackbar(msg,
-                    when (action) {
-                        ACTION_VERIFICATION -> {
-                            GeneralMsg.SEND_EMAIL.msg to { _: View->
-                                mViewModel.sendVerificationEmail()
-                            }
-                        }
-                        ACTION_PASSWORDRESET -> {
-                            GeneralMsg.SEND_EMAIL.msg to { _: View->
-                                mViewModel.sendPasswordResetEmail()
-                            }
-                        }
-                        else -> throw IllegalArgumentException("NO SNACKBAR ACTION IN AUTHFRAGMENT")
+            mBinding.root.showSnackbar(msg, when (action) {
+                ACTION_VERIFICATION -> {
+                    GeneralMsg.SEND_EMAIL.msg to { _: View ->
+                        mViewModel.onSendVerificationEmail()
                     }
+                }
+                ACTION_PASSWORDRESET -> {
+                    GeneralMsg.SEND_EMAIL.msg to { _: View ->
+                        mViewModel.onSendPasswordResetEmail()
+                    }
+                }
+                else -> throw IllegalArgumentException("NO SNACKBAR ACTION IN AUTHFRAGMENT")
+            }
 
             )
         }
+
+
     }
 }
 

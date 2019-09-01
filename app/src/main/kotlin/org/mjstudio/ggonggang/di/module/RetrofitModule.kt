@@ -9,7 +9,6 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.mjstudio.gfree.domain.constant.NativeConstant
 import retrofit2.Retrofit
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
@@ -18,9 +17,8 @@ class RetrofitModule {
 
     @Provides
     @Singleton
-    fun provideRetrofit(converter: GsonConverterFactory, adapter: RxJava2CallAdapterFactory, client: OkHttpClient): Retrofit {
+    fun provideRetrofit(converter: GsonConverterFactory,  client: OkHttpClient): Retrofit {
         return Retrofit.Builder()
-                .addCallAdapterFactory(adapter)
                 .addConverterFactory(converter)
                 .client(client)
                 .baseUrl(NativeConstant.API_URL)
@@ -57,11 +55,6 @@ class RetrofitModule {
         return GsonConverterFactory.create(gson)
     }
 
-    @Provides
-    @Singleton
-    fun provideRxJava2Adapter(): RxJava2CallAdapterFactory {
-        return RxJava2CallAdapterFactory.create()
-    }
 
     @Provides
     @Singleton

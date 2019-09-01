@@ -4,7 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.ViewModelProviders
+import androidx.databinding.ViewDataBinding
+import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.android.support.AndroidSupportInjection
 import org.mjstudio.gfree.domain.common.debugE
@@ -26,7 +27,7 @@ class PostTypeSelectBottomSheet : BottomSheetDialogFragment() {
         AndroidSupportInjection.inject(this)
         super.onCreate(savedInstanceState)
 
-        mViewModel = ViewModelProviders.of(this,viewModelFactory)[PostViewModel::class.java]
+        mViewModel = ViewModelProvider(this,viewModelFactory)[PostViewModel::class.java]
         debugE(TAG,viewModelFactory)
         debugE(TAG,mViewModel)
     }

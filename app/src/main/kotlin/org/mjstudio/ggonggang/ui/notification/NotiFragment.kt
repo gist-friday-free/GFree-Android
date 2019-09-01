@@ -2,7 +2,7 @@ package org.mjstudio.ggonggang.ui.notification
 
 import android.os.Bundle
 import android.view.View
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import org.mjstudio.ggonggang.R
 import org.mjstudio.ggonggang.common.BaseDaggerFragment
@@ -20,7 +20,7 @@ class NotiFragment : BaseDaggerFragment<FragmentNotiBinding,NotiViewModel>(R.lay
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        mViewModel = ViewModelProviders.of(this,viewModelFactory).get(NotiViewModel::class.java)
+        mViewModel = ViewModelProvider(this,viewModelFactory).get(NotiViewModel::class.java)
         super.onViewCreated(view, savedInstanceState)
 
         setRecyclerView()

@@ -9,23 +9,22 @@ import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.rxkotlin.plusAssign
 import kotlinx.android.synthetic.main.item_edit.view.*
+import kotlinx.coroutines.launch
 import org.mjstudio.gfree.domain.adapter.toEntity
 import org.mjstudio.gfree.domain.common.Msg
 import org.mjstudio.gfree.domain.common.NegativeMsg
 import org.mjstudio.gfree.domain.common.Once
-import org.mjstudio.gfree.domain.common.addSchedulers
 import org.mjstudio.gfree.domain.common.debugE
-import org.mjstudio.gfree.domain.constant.Constant
+import org.mjstudio.gfree.domain.constant.Constant.CURRENT_SEMESTER
+import org.mjstudio.gfree.domain.constant.Constant.CURRENT_YEAR
 import org.mjstudio.gfree.domain.entity.Edit
 import org.mjstudio.gfree.domain.repository.EditRepository
 import org.mjstudio.gfree.domain.repository.FirebaseAuthRepository
 import org.mjstudio.ggonggang.R
-import org.mjstudio.ggonggang.common.post
 import javax.inject.Inject
 
 class EditViewModel @Inject constructor(private val editRepository: EditRepository, private val authRepository: FirebaseAuthRepository
@@ -36,7 +35,6 @@ class EditViewModel @Inject constructor(private val editRepository: EditReposito
     //region DATA
     val isLoading = MutableLiveData(false)
 
-    val compositeDisposable = CompositeDisposable()
     val editItems : MutableLiveData<List<Edit>> = MutableLiveData(listOf())
 
     val starClickedItemIds = MutableLiveData<Set<Int>>(setOf())
@@ -63,57 +61,64 @@ class EditViewModel @Inject constructor(private val editRepository: EditReposito
     private fun getDatas() {
         isLoading.value=true
 
-        authRepository.getUid()?.let {uid->
+        viewModelScope.launch {
+            authRepository.getUid()?.let { uid ->
 
-            compositeDisposable += editRepository.getEditList(Constant.CURRENT_YEAR, Constant.CURRENT_SEMESTER)
-                    .addSchedulers()
-                    .doOnSubscribe { starClickedItemIds.value = setOf() }
-                    .doAfterTerminate { isLoading.value = false }
-                    .subscribe({
-                        editItems.value = it.map {
-                            val edit = it.toEntity()
-                            if(edit.star.contains(uid))
-                                starClickedItemIds.value = starClickedItemIds.value!!.plus(edit.id)
-                            return@map edit
-                        }
-                        startLayoutAnim post Once(true)
-                    }, {
-                        msg.value = Once(NegativeMsg.EDIT_LIST_FAIL)
-                        debugE(TAG, it)
-                    })
+                try {
+                    val datas = editRepository.getEditList(CURRENT_YEAR, CURRENT_SEMESTER)
+
+                    editItems.value = datas.map {
+                        val edit = it.toEntity()
+                        if (edit.star.contains(uid)) starClickedItemIds.value = starClickedItemIds.value!!.plus(edit.id)
+                        return@map edit
+                    }
+                    startLayoutAnim.value = Once(true)
+                } catch (e: Exception) {
+                    msg.value = Once(NegativeMsg.EDIT_LIST_FAIL)
+                    debugE(TAG, e)
+                } finally {
+                    isLoading.value = false
+                }
+            }
         }
+
+
+
     }
 
-    override fun onCleared() {
-        super.onCleared()
-
-        compositeDisposable.clear()
-    }
 
     fun onClickPostButton() {
         clickPostButton.value = Once(true)
     }
 
     fun onClickHeartButton(v : View, item: Edit) {
-        authRepository.getUid()?.let { uid ->
-            if (item.id in starClickedItemIds.value!!) {
-                compositeDisposable += editRepository.removeStar(item, uid).addSchedulers().subscribe({
-                    starClickedItemIds.value = starClickedItemIds.value!! - it.id
-                    val tv=(v.parent as ViewGroup).textView_star_count
-                    tv.text = (tv.text.toString().toInt() -1).toString()
-                }, {
-                    debugE(TAG, it)
-                })
-            } else {
-                compositeDisposable += editRepository.addStar(item, uid).addSchedulers().subscribe({
-                    starClickedItemIds.value = starClickedItemIds.value!! + it.id
-                    val tv=(v.parent as ViewGroup).textView_star_count
-                    tv.text = (tv.text.toString().toInt() +1).toString()
-                }, {
-                    debugE(TAG, it)
-                })
+
+        viewModelScope.launch {
+            try {
+                val uid = authRepository.getUid()?.let { uid ->
+                    if (item.id in starClickedItemIds.value!!) {
+
+                        val item = editRepository.removeStar(item, uid)
+                        starClickedItemIds.value = starClickedItemIds.value!! - item.id
+                        val tv = (v.parent as ViewGroup).textView_star_count
+                        tv.text = (tv.text.toString().toInt() - 1).toString()
+
+
+                    } else {
+
+                        val item = editRepository.addStar(item, uid)
+                        starClickedItemIds.value = starClickedItemIds.value!! + item.id
+                        val tv = (v.parent as ViewGroup).textView_star_count
+                        tv.text = (tv.text.toString().toInt() + 1).toString()
+
+                    }
+
+                }
+            }catch (e : Throwable) {
+                debugE(TAG,e)
             }
         }
+
     }
 }
 @BindingAdapter("app:editItems")

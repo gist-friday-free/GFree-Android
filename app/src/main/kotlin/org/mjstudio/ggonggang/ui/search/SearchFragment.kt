@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigator
 import androidx.navigation.NavigatorProvider
 import androidx.navigation.fragment.FragmentNavigatorExtras
@@ -19,7 +19,6 @@ import com.ferfalk.simplesearchview.SimpleSearchView
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.item_class.view.*
 import org.mjstudio.gfree.domain.common.debugE
-import org.mjstudio.gfree.domain.common.rxSingleTimer
 import org.mjstudio.gfree.domain.entity.ClassData
 import org.mjstudio.gfree.domain.repository.UserRepository
 import org.mjstudio.ggonggang.R
@@ -50,8 +49,8 @@ class SearchFragment : DaggerFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
-        mMainViewModel = ViewModelProviders.of(activity!!,viewModelFactory)[MainViewModel::class.java]
-        mViewModel = ViewModelProviders.of(activity!!, viewModelFactory)[SearchViewModel::class.java]
+        mMainViewModel = ViewModelProvider(activity!!,viewModelFactory)[MainViewModel::class.java]
+        mViewModel = ViewModelProvider(activity!!, viewModelFactory)[SearchViewModel::class.java]
         this.lifecycle.addObserver(mViewModel)
 
         mBinding = FragmentSearchBinding.inflate(inflater, container, false)
@@ -64,9 +63,9 @@ class SearchFragment : DaggerFragment() {
         listenViewModel()
 
 
-        debugE("onCreateView $this")
         return mBinding.root
     }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -79,16 +78,7 @@ class SearchFragment : DaggerFragment() {
         mBinding.recyclerView.startLayoutAnimation()
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        debugE(object{}::class.java.enclosingMethod.name)
-    }
 
-
-    override fun onDetach() {
-        super.onDetach()
-        debugE(object{}::class.java.enclosingMethod.name)
-    }
 
     private fun initView() {
         mBinding.floatingButtonAdd.isEnabled = false

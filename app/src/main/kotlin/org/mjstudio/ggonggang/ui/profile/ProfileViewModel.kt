@@ -5,12 +5,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.rxkotlin.plusAssign
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.launch
 import org.mjstudio.gfree.domain.common.Msg
 import org.mjstudio.gfree.domain.common.NegativeMsg
 import org.mjstudio.gfree.domain.common.Once
-import org.mjstudio.gfree.domain.common.addSchedulers
+import org.mjstudio.gfree.domain.common.debugE
 import org.mjstudio.gfree.domain.constant.Constant
 import org.mjstudio.gfree.domain.enumerator.Major
 import org.mjstudio.gfree.domain.enumerator.Sex
@@ -18,16 +18,9 @@ import org.mjstudio.gfree.domain.repository.FirebaseAuthRepository
 import org.mjstudio.gfree.domain.repository.UserRepository
 import javax.inject.Inject
 
-class ProfileViewModel @Inject constructor(
-        private val authRepository: FirebaseAuthRepository,
-        private val userRepository: UserRepository,
-        private val majorStrAdapter : Major.StringAdapter,
-        private val sexStrAdapter : Sex.StringAdapter
-) : ViewModel(){
+class ProfileViewModel @Inject constructor(private val authRepository: FirebaseAuthRepository, private val userRepository: UserRepository, private val majorStrAdapter: Major.StringAdapter, private val sexStrAdapter: Sex.StringAdapter) : ViewModel() {
 
     private val TAG = ProfileViewModel::class.java.simpleName
-
-    private val compositeDisposable = CompositeDisposable()
 
 
     //region Datas
@@ -35,22 +28,22 @@ class ProfileViewModel @Inject constructor(
 
     val isLoading = MutableLiveData(true)
 
-    val email : MutableLiveData<String> = MutableLiveData()
-    val major : MutableLiveData<Major> = MutableLiveData()
-    val majorText:LiveData<String> = Transformations.map(major) {
+    val email: MutableLiveData<String> = MutableLiveData()
+    val major: MutableLiveData<Major> = MutableLiveData()
+    val majorText: LiveData<String> = Transformations.map(major) {
         majorStrAdapter.toUi(it)
     }
-    val studentId : MutableLiveData<Int> = MutableLiveData()
-    val studentIdText:LiveData<String> = Transformations.map(studentId) {
+    val studentId: MutableLiveData<Int> = MutableLiveData()
+    val studentIdText: LiveData<String> = Transformations.map(studentId) {
         it.toString()
     }
-    val sex : MutableLiveData<Int> = MutableLiveData()
-    val sexText :LiveData<String> = Transformations.map(sex) {
+    val sex: MutableLiveData<Int> = MutableLiveData()
+    val sexText: LiveData<String> = Transformations.map(sex) {
         sexStrAdapter.toUi(it)
     }
-    val age : MutableLiveData<Int> = MutableLiveData()
-    val ageText:LiveData<String> = Transformations.map(age) {
-        val curYear= Constant.CURRENT_YEAR
+    val age: MutableLiveData<Int> = MutableLiveData()
+    val ageText: LiveData<String> = Transformations.map(age) {
+        val curYear = Constant.CURRENT_YEAR
         (curYear - it + 1).toString()
     }
 
@@ -74,75 +67,65 @@ class ProfileViewModel @Inject constructor(
         initProfile()
     }
 
+    private fun initProfile() = viewModelScope.launch {
+        isLoading.value = true
+        try {
+            authRepository.getUid()?.let { uid ->
+                this@ProfileViewModel.uid = uid
 
-    override fun onCleared() {
-        super.onCleared()
-        compositeDisposable.clear()
-    }
+                val user = userRepository.getUserInfo(uid)
 
+                email.value = user.email
+                studentId.value = user.studentId
 
-    private fun initProfile() {
-        authRepository.getUid()?.let { uid ->
-            this@ProfileViewModel.uid = uid
-            userRepository.getUserInfo(uid)
-                    .addSchedulers()
-                    .doAfterTerminate {
-                        isLoading.value = false
-                    }
-                    .subscribe({ user ->
-                        email.value = user.email
-                        studentId.value = user.studentId
-                        major.value = Major.getMajorWithCode(user.majorCode)
-                        age.value = user.age
-                        sex.value = user.sex
+                age.value = user.age
+                sex.value = user.sex
+                major.value = Major.getMajorWithCode(user.majorCode)
+                initProfileComplete.value = true
 
-                        initProfileComplete.value = true
-                    }, {
-                        msg.value = Once(NegativeMsg.PROFILE_INIT_FAIL)
-                    })
+            }
+        } catch (e: Throwable) {
+            debugE(TAG,e)
+        } finally {
+            isLoading.value = false
         }
     }
 
-    private fun changeMajor(majorCode: String) {
-        compositeDisposable+=userRepository.changeMajor(uid!!, majorCode)
-                .addSchedulers()
-                .subscribe({newMajor->
-                    major.value = Major.getMajorWithCode(newMajor)
-                }, {
-                    msg.value = Once(NegativeMsg.PROFILE_CHANGE_FAIL)
-                })
+    private fun changeMajor(majorCode: String) = viewModelScope.launch {
+        try {
+            val major = userRepository.changeMajor(uid!!,majorCode)
+            this@ProfileViewModel.major.value = Major.getMajorWithCode(major)
+        }catch(e : Throwable) {
+            msg.value = Once(NegativeMsg.PROFILE_CHANGE_FAIL)
+        }
+    }
+
+    private fun changeId(id: Int) = viewModelScope.launch{
+        try {
+            val id = userRepository.changeStudentId(uid!!,id)
+            this@ProfileViewModel.studentId.value = id
+        }catch(e : Throwable) {
+            msg.value = Once(NegativeMsg.PROFILE_CHANGE_FAIL)
+        }
+    }
+
+    private fun changeAge(age: Int) = viewModelScope.launch{
+        try {
+            val age = userRepository.changeAge(uid!!,age)
+            this@ProfileViewModel.age.value = age
+        }catch(e : Throwable) {
+            msg.value = Once(NegativeMsg.PROFILE_CHANGE_FAIL)
+        }
 
     }
 
-    private fun changeId(id: Int) {
-        compositeDisposable += userRepository.changeStudentId(uid!!, id)
-                .addSchedulers()
-                .subscribe({newId->
-                    studentId.value = newId
-                }, {
-                    msg.value = Once(NegativeMsg.PROFILE_CHANGE_FAIL)
-                })
-    }
-
-    private fun changeAge(age: Int) {
-
-        compositeDisposable+=userRepository.changeAge(uid!!, age)
-                .addSchedulers()
-                .subscribe({newAge->
-                    this@ProfileViewModel.age.value = newAge
-                }, {
-                    msg.value = Once(NegativeMsg.PROFILE_CHANGE_FAIL)
-                })
-    }
-
-    private fun changeSex(sex: Int) {
-        compositeDisposable+=userRepository.changeSex(uid!!, sex)
-                .addSchedulers()
-                .subscribe({newSex->
-                    this@ProfileViewModel.sex.value = newSex
-                }, {
-                    msg.value = Once(NegativeMsg.PROFILE_CHANGE_FAIL)
-                })
+    private fun changeSex(sex: Int) = viewModelScope.launch{
+        try {
+            val sex = userRepository.changeSex(uid!!,sex)
+            this@ProfileViewModel.sex.value = sex
+        }catch(e : Throwable) {
+            msg.value = Once(NegativeMsg.PROFILE_CHANGE_FAIL)
+        }
     }
 
     fun onClickMajorLeftButton() {
@@ -153,6 +136,7 @@ class ProfileViewModel @Inject constructor(
         }
 
     }
+
     fun onClickMajorRightButton() {
         major.value?.let { major ->
             val curMajor = major
@@ -160,35 +144,41 @@ class ProfileViewModel @Inject constructor(
             changeMajor(Major.getRightMajor(curMajor).code)
         }
     }
+
     fun onClickIdLeftButton() {
-        studentId.value?.let {id->
-            changeId(MathUtils.clamp(id.toInt()-1, Constant.MIN_STUDENT_ID,Constant.MAX_STUDENT_ID))
+        studentId.value?.let { id ->
+            changeId(MathUtils.clamp(id.toInt() - 1, Constant.MIN_STUDENT_ID, Constant.MAX_STUDENT_ID))
         }
     }
+
     fun onClickIdRightButton() {
-        studentId.value?.let {id->
-            changeId(MathUtils.clamp(id.toInt()+1, Constant.MIN_STUDENT_ID,Constant.MAX_STUDENT_ID))
+        studentId.value?.let { id ->
+            changeId(MathUtils.clamp(id.toInt() + 1, Constant.MIN_STUDENT_ID, Constant.MAX_STUDENT_ID))
         }
     }
+
     fun onClickAgeLeftButton() {
-        age.value?.let {age->
-            changeAge(MathUtils.clamp(age.toInt()+1,Constant.MIN_AGE,Constant.MAX_AGE))
+        age.value?.let { age ->
+            changeAge(MathUtils.clamp(age.toInt() + 1, Constant.MIN_AGE, Constant.MAX_AGE))
 
         }
     }
+
     fun onClickAgeRightButton() {
-        age.value?.let {age->
-            changeAge(MathUtils.clamp(age.toInt()-1,Constant.MIN_AGE,Constant.MAX_AGE))
+        age.value?.let { age ->
+            changeAge(MathUtils.clamp(age.toInt() - 1, Constant.MIN_AGE, Constant.MAX_AGE))
         }
     }
+
     fun onClickSexLeftButton() {
-        sex.value?.let {sex->
+        sex.value?.let { sex ->
             val curSex = Sex.getSexWithValue(sex.toInt())
             changeSex(Sex.getLeftSex(curSex).value)
         }
     }
+
     fun onClickSexRightButton() {
-        sex.value?.let {sex->
+        sex.value?.let { sex ->
             val curSex = Sex.getSexWithValue(sex.toInt())
             changeSex(Sex.getRightSex(curSex).value)
         }

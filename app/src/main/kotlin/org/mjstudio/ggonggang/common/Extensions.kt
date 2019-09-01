@@ -87,6 +87,6 @@ fun View.addGlobalLayoutOnce(f: () -> Unit) {
     })
 }
 
-infix fun <T> MutableLiveData<T>.post(value : T) {
-    this.postValue(value)
-}
+//infix fun <T> MutableLiveData<T>.post(value : T) {
+//    this.postValue(value)
+//}

@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.PagerSnapHelper
 import dagger.android.support.DaggerFragment
 import org.mjstudio.gfree.domain.common.debugE
@@ -32,7 +32,7 @@ class ProfileFragment : DaggerFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
-        mViewModel = ViewModelProviders.of(this,viewModelFactory)[ProfileViewModel::class.java]
+        mViewModel = ViewModelProvider(this,viewModelFactory)[ProfileViewModel::class.java]
 
 
         mBinding = FragmentProfileBinding.inflate(inflater, container, false).apply {

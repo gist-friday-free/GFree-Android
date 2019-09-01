@@ -6,19 +6,17 @@ import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
-import io.reactivex.Single
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.disposables.Disposable
-import io.reactivex.rxkotlin.plusAssign
-import io.reactivex.rxkotlin.zipWith
+import androidx.lifecycle.liveData
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.mjstudio.gfree.domain.adapter.toDTO
 import org.mjstudio.gfree.domain.adapter.toEntity
 import org.mjstudio.gfree.domain.common.Msg
 import org.mjstudio.gfree.domain.common.NegativeMsg
 import org.mjstudio.gfree.domain.common.Once
-import org.mjstudio.gfree.domain.common.addSchedulers
 import org.mjstudio.gfree.domain.common.debugE
-import org.mjstudio.gfree.domain.common.disposedBy
 import org.mjstudio.gfree.domain.constant.Constant
 import org.mjstudio.gfree.domain.dto.EditDTO
 import org.mjstudio.gfree.domain.dto.EditDTO.Type.ADD
@@ -37,21 +35,11 @@ import org.mjstudio.gfree.domain.repository.ClassDataRepository
 import org.mjstudio.gfree.domain.repository.EditRepository
 import org.mjstudio.gfree.domain.repository.FirebaseAuthRepository
 import org.mjstudio.gfree.domain.repository.UserRepository
-import org.mjstudio.ggonggang.common.post
 import javax.inject.Inject
 
-class PostViewModel @Inject constructor(
-        private val app:  Application,
-        private val classDataRepository: ClassDataRepository,
-        private val editRepository: EditRepository,
-        private val userRepository: UserRepository,
-        private val authRepository: FirebaseAuthRepository
-) : ViewModel() {
+class PostViewModel @Inject constructor(private val app: Application, private val classDataRepository: ClassDataRepository, private val editRepository: EditRepository, private val userRepository: UserRepository, private val authRepository: FirebaseAuthRepository) : ViewModel() {
 
     private val TAG = PostViewModel::class.java.simpleName
-
-    private var currentClassDataDisposable : Disposable? = null
-    private val compositeDisposable = CompositeDisposable()
 
     //region DATA
 
@@ -63,24 +51,26 @@ class PostViewModel @Inject constructor(
     /**
      * EditText를 관찰하며 현재 선택된 ClassData를 변경해주는 옵저버
      */
-    val currentClassDataObserver = Transformations.map(codeText) {code->
-        currentClassDataDisposable?.dispose()
-        val d = classDataRepository.getClassDataWithCode(code.toUpperCase(), Constant.CURRENT_YEAR,Constant.CURRENT_SEMESTER)
-                .addSchedulers()
-                .subscribe({
-                    currentClassData.value = it.toEntity()
-                }, {
-                    currentClassData.value = null
-                    debugE(TAG,"cannot find class With Code")
-                })
-        currentClassDataDisposable = d
 
-        null
+
+    val currentClassDataObserver = Transformations.switchMap(codeText) { code ->
+
+        liveData(viewModelScope.coroutineContext) {
+
+            try {
+                val it = classDataRepository.getClassDataWithCode(code.toUpperCase(), Constant.CURRENT_YEAR, Constant.CURRENT_SEMESTER)
+                emit(it)
+            } catch (e: Throwable) {
+                emit(null)
+                debugE(TAG, "cannot find class With Code")
+            }
+
+        }
     }
     /**
      * 현재 선택된 ClassData
      */
-    val currentClassData : MutableLiveData<ClassData?> = MutableLiveData(null)
+    val currentClassData: MutableLiveData<ClassData?> = MutableLiveData(null)
 
     /**
      * 현재의 EditType
@@ -91,8 +81,7 @@ class PostViewModel @Inject constructor(
      * EditType 으로 표시되는 텍스트
      */
     val typeText = Transformations.map(selectedType) {
-        if(it == null)
-            return@map ""
+        if (it == null) return@map ""
 
         app.resources.getString(it.strResId)
     }
@@ -101,21 +90,21 @@ class PostViewModel @Inject constructor(
      * 현재 과목의 EditType에 해당하는 값 텍스트, Inverse Binding
      */
     val currentValueText = MediatorLiveData<String>().apply {
-        this.addSource(currentClassData) {classData->
+        this.addSource(currentClassData) { classData ->
             classData ?: return@addSource
 
             synchronized(currentClassData) {
                 if (selectedType.value != null) {
-                    setViewConstraintsWithCurrentClassDataAndEditType(classData,selectedType.value!!,true)
+                    setViewConstraintsWithCurrentClassDataAndEditType(classData, selectedType.value!!, true)
                 }
             }
         }
-        this.addSource(selectedType) {type->
+        this.addSource(selectedType) { type ->
             type ?: return@addSource
 
             synchronized(currentClassData) {
                 if (currentClassData.value != null) {
-                    setViewConstraintsWithCurrentClassDataAndEditType(currentClassData.value!!,type,false)
+                    setViewConstraintsWithCurrentClassDataAndEditType(currentClassData.value!!, type, false)
                 }
             }
         }
@@ -126,7 +115,7 @@ class PostViewModel @Inject constructor(
     /**
      * RecyclerView에서 보여줄 TimeSlot 아이템들
      */
-    val timeSlotItems = Transformations.map(currentClassData) {classData->
+    val timeSlotItems = Transformations.map(currentClassData) { classData ->
         classData?.time ?: listOf()
     }
 
@@ -144,10 +133,10 @@ class PostViewModel @Inject constructor(
     /**
      * ClassInfo에 해당하는 텍스트 "Cannot find" or 과목 이름
      */
-    val classInfoText: LiveData<String> = Transformations.map(currentClassData) { classData->
-        if(classData == null) {
+    val classInfoText: LiveData<String> = Transformations.map(currentClassData) { classData ->
+        if (classData == null) {
             return@map "Cannot find"
-        }else {
+        } else {
             return@map classData.name
         }
     }
@@ -163,7 +152,7 @@ class PostViewModel @Inject constructor(
     val clickNavigateInfo = MutableLiveData<Once<ClassData>>()
     val clickBackButton = MutableLiveData<Once<Boolean>>()
     val removeRequest = MutableLiveData<Once<ClassData>>()
-    val removeSuccess = MutableLiveData<Once<EditDTO>>()
+    val requestSuccess = MutableLiveData<Once<EditDTO>>()
 
     val duplicateItemExist = MutableLiveData<Once<EditDTO>>()
 
@@ -173,25 +162,25 @@ class PostViewModel @Inject constructor(
     val loading = MutableLiveData<Boolean>(false)
     //endregion
 
-    private fun setViewConstraintsWithCurrentClassDataAndEditType(classData : ClassData, type : EditDTO.Type, fromClassDataChange : Boolean) {
+    private fun setViewConstraintsWithCurrentClassDataAndEditType(classData: ClassData, type: EditDTO.Type, fromClassDataChange: Boolean) {
 
         //EditText Visibility settings
-        editTextVisibility.value = when(type) {
-            ADD, REMOVE, TIMEADD, TIMEREMOVE ->false
-            CODE, NAME, GRADE, PROFESSOR, PLACE, SIZE ->true
+        editTextVisibility.value = when (type) {
+            ADD, REMOVE, TIMEADD, TIMEREMOVE -> false
+            CODE, NAME, GRADE, PROFESSOR, PLACE, SIZE -> true
         }
 
         //EditText Text settings
-        currentValueText.value=type.ClassDataAdapter().toUi(classData)
+        currentValueText.value = type.ClassDataAdapter().toUi(classData)
         newValueText.value = ""
 
 
 
-        when(type) {
+        when (type) {
             //Handle REMOVE type
 
             REMOVE -> {
-                if(!fromClassDataChange) {
+                if (!fromClassDataChange) {
                     removeRequest.value = Once(classData)
                 }
             }
@@ -210,87 +199,104 @@ class PostViewModel @Inject constructor(
         clickTypeSelect.value = Once(true)
     }
 
-    fun onClickEditType(type : EditDTO.Type) {
+    fun onClickEditType(type: EditDTO.Type) {
         selectedType.value = type
     }
 
     fun onClickNaviInformationButton() {
-        currentClassData.value?.let {classData->
+        currentClassData.value?.let { classData ->
             clickNavigateInfo.value = Once(classData)
         }
     }
 
-    fun onClickSubmitButton() {
+    fun onClickSubmitButton() = viewModelScope.launch {
 
 
-        val classData = currentClassData.value ?: return
-        val type = selectedType.value ?: return
-        val value = newValueText.value ?: return
-        if(value == "") return
+        val classData = currentClassData.value ?: return@launch
+        val type = selectedType.value ?: return@launch
+        val value = newValueText.value ?: return@launch
+        if (value == "") return@launch
 
-        this.loading.value = true
+        loading.value = true
 
-        authRepository.getUid()?.let {uid->
-            userRepository.getUserInfo(uid)
-                    .zipWith(checkDuplicateEditRequest(classData,type,value))
-                    .addSchedulers()
-                    .doAfterTerminate { loading.value = false }
-                    .subscribe({(userInfo, duplicated) ->
+        try {
+            authRepository.getUid()?.let { uid ->
 
-                        val edit = Edit(classData,userInfo.toEntity(),type,value).toDTO()
+                val info = userRepository.getUserInfo(uid)
+                val duplicate = checkDuplicateEditRequest(classData, type, value)
 
-                        if(duplicated) {
-                            duplicateItemExist post Once(edit)
-                        }else {
-                            createEditRequest(edit)
-                        }
+                val edit = Edit(classData, info.toEntity(), type, value)
 
-                    }, {
-                        msg post Once(NegativeMsg.PROFILE_INIT_FAIL)
-                        debugE(TAG,it)
-                    }).disposedBy(compositeDisposable)
+                if (duplicate) {
+                    duplicateItemExist.value = Once(edit.toDTO())
+                } else {
+                    createEditRequest(edit.toDTO())
+                }
+
+            }
+        } catch (e: Throwable) {
+            msg.value =  Once(NegativeMsg.PROFILE_INIT_FAIL)
+            debugE(TAG, e)
         }
+
+        loading.value = false
     }
 
 
     fun onClickBackButton() {
         clickBackButton.value = Once(true)
     }
-    fun onClickRemoveClassButton(classData : ClassData) {
 
-        authRepository.getUid()?.let {uid->
-            userRepository.getUserInfo(uid)
-                    .zipWith(checkDuplicateEditRequest(classData,REMOVE))
-                    .addSchedulers()
-                    .subscribe({(userInfoDTO,existDuplicateItem)->
+    fun onClickRemoveClassButton(classData: ClassData) = viewModelScope.launch {
 
-                        val editDTO = Edit(classData,userInfoDTO.toEntity(),EditDTO.Type.REMOVE,"").toDTO()
 
-                        if (existDuplicateItem) {
-                            //이미 일치하는 것이 존재
-                            duplicateItemExist post Once(editDTO)
-                        } else {
-                            //일치하는 것이 존재하지 않음
-                            createEditRequest(editDTO)
-                        }
-                    }, {
-                        msg post Once(NegativeMsg.PROFILE_INIT_FAIL)
-                        debugE(TAG,it)
-                    }).disposedBy(compositeDisposable)
+        loading.value = true
+
+        authRepository.getUid()?.let { uid ->
+
+            try {
+                authRepository.getUid()?.let { uid ->
+
+                    val info = userRepository.getUserInfo(uid)
+                    val duplicate = checkDuplicateEditRequest(classData,REMOVE)
+
+
+                    val edit = Edit(classData, info.toEntity(), REMOVE,"").toDTO()
+
+                    if (duplicate) {
+                        //이미 일치하는 것이 존재
+                        duplicateItemExist.value =  Once(edit)
+                    } else {
+                        //일치하는 것이 존재하지 않음
+                        createEditRequest(edit)
+                    }
+
+                }
+            } catch (e: Throwable) {
+                msg.value =  Once(NegativeMsg.PROFILE_INIT_FAIL)
+                debugE(TAG, e)
+            }
+
+
         }
+
+        loading.value = false
     }
+
+
 
     /**
      * 수정 요청을 생성한다.
      */
-    fun createEditRequest(editDTO: EditDTO) {
-        compositeDisposable+=editRepository.createEditRequest(editDTO).addSchedulers()
-                .subscribe({
-                    removeSuccess post Once(it)
-                }, {
-                    msg post Once(NegativeMsg.POST_FAIL_MAKE_REQUEST)
-                    debugE(TAG,it)
-                })
+    fun createEditRequest(editDTO: EditDTO) = viewModelScope.launch{
+        try {
+            val request = editRepository.createEditRequest(editDTO)
+
+            requestSuccess.value = Once(request)
+        } catch (e: Throwable) {
+            msg.value =  Once(NegativeMsg.POST_FAIL_MAKE_REQUEST)
+            debugE(TAG, e)
+        }
     }
 
     /**
@@ -298,34 +304,12 @@ class PostViewModel @Inject constructor(
      *
      * @return 동일한 것이 있으면 true, 없으면 false 를 비동기로 반환
      */
-    private fun checkDuplicateEditRequest(classData : ClassData ,type : EditDTO.Type,value : String? = null) : Single<Boolean> {
-
-        return Single.create<Boolean> { emitter->
-            compositeDisposable+=editRepository.getEditListWithCode(classData.code,Constant.CURRENT_YEAR,Constant.CURRENT_SEMESTER)
-                    .addSchedulers()
-                    .subscribe({editDTOList->
-
-                        val sameCount=editDTOList.count {
-                            it.editClassData.id == classData.id && it.type == type.name && it.value == (value ?: "")
-                        }
-                        if(sameCount > 0)
-                            emitter.onSuccess(true)
-                        else
-                            emitter.onSuccess(false)
-
-                    }, {
-                        emitter.onError(it)
-                    })
-
+    private suspend fun checkDuplicateEditRequest(classData: ClassData, type: EditDTO.Type, value: String? = null): Boolean = withContext(IO) {
+        val list = editRepository.getEditListWithCode(classData.code, Constant.CURRENT_YEAR, Constant.CURRENT_SEMESTER)
+        val sameCount = list.count {
+            it.editClassData.id == classData.id && it.type == type.name && it.value == (value ?: "")
         }
-
-
+        return@withContext sameCount > 0
     }
 
-    override fun onCleared() {
-        super.onCleared()
-
-        currentClassDataDisposable?.dispose()
-        compositeDisposable.clear()
-    }
 }
