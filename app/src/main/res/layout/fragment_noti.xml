@@ -16,7 +16,7 @@
     tools:context=".ui.notification.NotiFragment">
 
 
-        <org.mjstudio.ggonggang.common.LeaklessRecyclerView
+        <androidx.recyclerview.widget.RecyclerView
             android:layoutAnimation="@anim/layout_animation_fall_down"
             android:id="@+id/recyclerView_noti"
             app:notiItems="@{vm.notiItems}"

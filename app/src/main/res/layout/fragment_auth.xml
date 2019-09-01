@@ -14,57 +14,65 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.rengwuxian.materialedittext.MaterialEditText
 
-            app:met_floatingLabel="highlight"
-            app:met_floatingLabelText="Email"
-            app:met_floatingLabelAlwaysShown="true"
-            app:met_floatingLabelAnimating="true"
-            app:met_primaryColor="@color/colorBlack"
-
-
+        <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/editText_auth_email"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+
+            android:layout_marginTop="100dp"
+
+            android:hint="Email"
+            app:layout_constraintWidth_percent="0.8"
+
+            style="@style/TextInputLayoutStyle"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="170dp"
-            android:layout_marginEnd="50dp"
-            android:backgroundTint="@color/colorTextHint"
+            android:layout_height="wrap_content">
 
-            android:ems="10"
-            android:inputType="textEmailAddress"
-            android:text="@={vm.emailText}"
-            android:textColor="@color/colorText"
-            android:textSize="14sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            <com.google.android.material.textfield.TextInputEditText
+                android:inputType="textEmailAddress"
+                style="@style/EditTextStyle"
 
-        <com.rengwuxian.materialedittext.MaterialEditText
-            app:met_floatingLabel="highlight"
-            app:met_floatingLabelText="Password"
-            app:met_floatingLabelAlwaysShown="true"
-            app:met_floatingLabelAnimating="true"
-            app:met_primaryColor="@color/colorBlack"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@={vm.emailText}" />
 
-            android:text="@={vm.passwordText}"
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/editText_password"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="50dp"
-            android:backgroundTint="@color/colorTextHint"
-            android:ems="10"
-            android:inputType="textPassword"
-            android:textColor="@color/colorText"
-            android:textSize="14sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editText_auth_email" />
+            app:layout_constraintTop_toBottomOf="@id/editText_auth_email"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
 
-        <Button
+            android:layout_marginTop="16dp"
+
+            android:hint="Password"
+            app:layout_constraintWidth_percent="0.8"
+
+            style="@style/TextInputLayoutStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.textfield.TextInputEditText
+                style="@style/EditTextStyle"
+                android:inputType="textPassword"
+                android:text="@={vm.passwordText}"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+
+        <com.google.android.material.button.MaterialButton
+
+
+            app:strokeColor="@color/colorAccent"
+
+            android:textColor="#000"
             android:id="@+id/button_signup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -78,7 +86,8 @@
             app:layout_constraintEnd_toStartOf="@+id/button_signin"
             app:layout_constraintTop_toBottomOf="@+id/textView_auth3" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
+            android:textColor="@color/colorAccent"
             android:id="@+id/button_signin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -93,72 +102,65 @@
             app:layout_constraintTop_toBottomOf="@+id/textView_auth3" />
 
 
-
         <TextView
-            android:text="@{vm.textServerConnection}"
-            android:textColor="@{vm.textServerConnectionColor}"
-
             android:id="@+id/textView_auth1"
-
             android:layout_width="0dp"
+
             android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
+
             android:layout_marginTop="24dp"
-            android:layout_marginEnd="32dp"
             android:shadowColor="@color/textShadow"
             android:shadowDx="0.5"
             android:shadowDy="0.5"
             android:shadowRadius="1"
+            android:text="@{vm.textServerConnection}"
+            android:textColor="@{vm.textServerConnectionColor}"
 
 
             android:textSize="12sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/editText_password"
+            app:layout_constraintStart_toStartOf="@+id/editText_password"
             app:layout_constraintTop_toBottomOf="@+id/editText_password"
             tools:text="Authentication - Success"
             tools:textColor="@color/authBlue" />
 
 
         <TextView
-            android:text="@{vm.textAuthentication}"
-            android:textColor="@{vm.textAuthenticationColor}"
-
             android:id="@+id/textView_auth2"
             android:layout_width="0dp"
+
             android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
             android:layout_marginTop="8dp"
-            android:layout_marginEnd="32dp"
             android:shadowColor="@color/textShadow"
             android:shadowDx="0.5"
             android:shadowDy="0.5"
             android:shadowRadius="1"
+            android:text="@{vm.textAuthentication}"
+            android:textColor="@{vm.textAuthenticationColor}"
             android:textSize="12sp"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/textView_auth1"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/textView_auth1"
             app:layout_constraintTop_toBottomOf="@+id/textView_auth1"
             tools:text="Authentication - Pending"
             tools:textColor="@color/authRed" />
 
         <TextView
-            android:text="@{vm.textVerification}"
-            android:textColor="@{vm.textVerificationColor}"
-
             android:id="@+id/textView_auth3"
             android:layout_width="0dp"
+
             android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
             android:layout_marginTop="8dp"
-            android:layout_marginEnd="32dp"
             android:shadowColor="@color/textShadow"
             android:shadowDx="0.5"
             android:shadowDy="0.5"
             android:shadowRadius="1"
+            android:text="@{vm.textVerification}"
+            android:textColor="@{vm.textVerificationColor}"
             android:textSize="12sp"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/textView_auth2"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/textView_auth2"
             app:layout_constraintTop_toBottomOf="@+id/textView_auth2"
             tools:text="Authentication - Fail" />
 

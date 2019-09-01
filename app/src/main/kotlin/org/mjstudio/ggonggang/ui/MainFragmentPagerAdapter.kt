@@ -5,7 +5,6 @@ import androidx.databinding.BindingAdapter
 import androidx.databinding.BindingMethod
 import androidx.databinding.BindingMethods
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -14,7 +13,6 @@ import kotlin.reflect.full.primaryConstructor
 class MainFragmentPagerAdapter(fragment : Fragment) : FragmentStateAdapter(fragment.childFragmentManager,fragment.viewLifecycleOwner.lifecycle) {
     override fun getItemCount() = MainNavigationTab.getAllTab().size
 
-    private lateinit var fr : FragmentActivity
     override fun createFragment(position: Int): Fragment {
         val tab = MainNavigationTab.getTabInfoWithIndex(position)
         val kClass = tab.fragClass

@@ -235,20 +235,22 @@
                                 android:orientation="horizontal">
 
                                 <TextView
+                                    android:gravity="center"
                                     android:id="@+id/textView28"
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
                                     android:text="전공"
-                                    android:textAlignment="center" />
+                                     />
 
                                 <TextView
+                                    android:gravity="center"
                                     android:id="@+id/textView29"
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
                                     android:text="학번"
-                                    android:textAlignment="center" />
+                                    />
                             </LinearLayout>
 
                             <LinearLayout
@@ -282,20 +284,22 @@
                                 android:orientation="horizontal">
 
                                 <TextView
+                                    android:gravity="center"
                                     android:id="@+id/textView30"
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
                                     android:text="나이"
-                                    android:textAlignment="center" />
+                                     />
 
                                 <TextView
+                                    android:gravity="center"
                                     android:id="@+id/textView31"
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
                                     android:text="성별"
-                                    android:textAlignment="center" />
+                                     />
                             </LinearLayout>
 
                         </LinearLayout>
@@ -392,7 +396,7 @@
                             app:layout_constraintTop_toBottomOf="@+id/textView3"
                             tools:visibility="visible">
 
-                            <org.mjstudio.ggonggang.common.LeaklessRecyclerView
+                            <androidx.recyclerview.widget.RecyclerView
                                 android:id="@+id/recyclerView_review"
                                 android:layout_width="match_parent"
                                 android:layout_height="200dp"

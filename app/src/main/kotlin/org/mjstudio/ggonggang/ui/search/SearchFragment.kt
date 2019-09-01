@@ -43,7 +43,6 @@ class SearchFragment : DaggerFragment() {
     private var mBinding: FragmentSearchBinding by AutoClearedValue()
     private lateinit var mMainViewModel : MainViewModel
     private lateinit var mViewModel: SearchViewModel
-    private var mAdapter : SearchItemAdapter? = null
 
     private var isSearchViewOpen = false
 
@@ -199,11 +198,8 @@ class SearchFragment : DaggerFragment() {
     }
 
     fun setRecyclerView() {
-        if(mAdapter == null) {
-            mAdapter = SearchItemAdapter(userRepository, mViewModel, viewLifecycleOwner)
-        }
         mBinding.recyclerView.layoutManager = LinearLayoutManager(context!!)
-        mBinding.recyclerView.adapter = mAdapter
+        mBinding.recyclerView.adapter = SearchItemAdapter(userRepository, mViewModel, viewLifecycleOwner)
         mBinding.recyclerView.addItemDecoration(androidx.recyclerview.widget.DividerItemDecoration(context!!, androidx.recyclerview.widget.RecyclerView.VERTICAL))
     }
 

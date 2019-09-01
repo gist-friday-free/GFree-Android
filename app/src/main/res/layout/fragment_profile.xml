@@ -241,55 +241,51 @@
             app:srcCompat="@drawable/ic_arrow_right" />
 
         <TextView
-            android:id="@+id/textView_"
+            android:gravity="center"
             style="@style/BaseTextView"
+            android:id="@+id/textView_"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
-            android:layout_marginRight="16dp"
             android:text="전공"
-            android:textAlignment="textEnd"
             app:layout_constraintEnd_toStartOf="@+id/guideline6"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
         <TextView
+            android:gravity="center"
             style="@style/BaseTextView"
             android:id="@+id/textView_2"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
-            android:layout_marginRight="16dp"
             android:text="학번"
-            android:textAlignment="textEnd"
             app:layout_constraintEnd_toStartOf="@+id/guideline6"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView_" />
 
         <TextView
+            android:gravity="center"
             style="@style/BaseTextView"
             android:id="@+id/textView_3"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
-            android:layout_marginRight="16dp"
             android:text="나이"
-            android:textAlignment="textEnd"
             app:layout_constraintEnd_toStartOf="@+id/guideline6"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView_2" />
 
         <TextView
+            android:gravity="center"
             style="@style/BaseTextView"
             android:id="@+id/textView_4"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
-            android:layout_marginRight="16dp"
             android:text="성별"
-            android:textAlignment="textEnd"
             app:layout_constraintEnd_toStartOf="@+id/guideline6"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
@@ -342,7 +338,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <org.mjstudio.ggonggang.common.LeaklessRecyclerView
+                <androidx.recyclerview.widget.RecyclerView
                     app:classes="@{userRepository.getRegisteredClassDataLiveData()}"
 
                     android:id="@+id/recyclerView_profile"

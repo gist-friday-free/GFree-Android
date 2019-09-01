@@ -1,7 +1,7 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight">
 
         <!--Activity Transition-->
         <!--<item name="android:windowActivityTransitions">false</item>-->
@@ -30,6 +30,9 @@
         <item name="android:textColorSecondaryInverse">@color/colorText</item>
 
         <item name="android:windowContentTransitions">true</item>
+
+        <item name="windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
 
 
     </style>
